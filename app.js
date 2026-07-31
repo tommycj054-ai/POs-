@@ -1,7 +1,7 @@
 // ==========================================
 // CRAFT POS PRO
-// UPDATE 4
-// BARCODE MANAGER + PRINTING
+// UPDATE 4.1
+// IPAD BARCODE SCANNER FIX
 // APP.JS PART 1
 // ==========================================
 
@@ -21,7 +21,6 @@ JSON.parse(localStorage.getItem("stats")) || {
 
     sales:0,
     sold:0,
-
     cash:0,
     card:0,
     other:0
@@ -42,16 +41,14 @@ let imageData="";
 let scannerRunning=false;
 
 
+let selectedBarcodes=[];
+
+
+
 let craftShowMode =
 JSON.parse(
 localStorage.getItem("craftShowMode")
 ) || false;
-
-
-
-// barcode printing selections
-
-let selectedBarcodes=[];
 
 
 
@@ -70,31 +67,22 @@ function saveData(){
 
 
 localStorage.setItem(
-
 "items",
-
 JSON.stringify(items)
-
 );
 
 
 
 localStorage.setItem(
-
 "stats",
-
 JSON.stringify(stats)
-
 );
 
 
 
 localStorage.setItem(
-
 "craftShowMode",
-
 JSON.stringify(craftShowMode)
-
 );
 
 
@@ -122,23 +110,21 @@ document.querySelectorAll(".page")
 
 .forEach(p=>{
 
-
 p.classList.add("hidden");
-
 
 });
 
 
 
 
-let selected =
+let target =
 document.getElementById(page);
 
 
 
-if(selected)
+if(target)
 
-selected.classList.remove("hidden");
+target.classList.remove("hidden");
 
 
 
@@ -150,11 +136,9 @@ renderInventory();
 
 
 
-
 if(page==="checkout")
 
 renderCheckout();
-
 
 
 
@@ -164,11 +148,9 @@ renderBarcodes();
 
 
 
-
 if(page==="alerts")
 
 renderAlerts();
-
 
 
 
@@ -206,8 +188,8 @@ saveData();
 
 
 
-
 if(craftShowMode){
+
 
 
 document.body.classList.add(
@@ -229,6 +211,7 @@ showPage("checkout");
 }
 
 else{
+
 
 
 document.body.classList.remove(
@@ -260,7 +243,6 @@ alert(
 // ===============================
 // BACKUP EXPORT
 // ===============================
-
 
 
 function exportBackup(){
@@ -385,24 +367,13 @@ data.items || [];
 stats =
 data.stats || {
 
-
 sales:0,
-
-
 sold:0,
-
-
 cash:0,
-
-
 card:0,
-
-
 other:0
 
-
 };
-
 
 
 
@@ -450,7 +421,6 @@ reader.readAsText(file);
 
 
 function createBarcode(){
-
 
 
 return String(
@@ -501,6 +471,7 @@ e.target.files[0];
 if(!file)
 
 return;
+
 
 
 
@@ -555,7 +526,7 @@ reader.readAsDataURL(file);
 
 
 // ===============================
-// OPEN EDITOR
+// OPEN ITEM EDITOR
 // ===============================
 
 
@@ -600,6 +571,7 @@ document.getElementById(
 
 
 
+
 if(id){
 
 
@@ -628,8 +600,7 @@ document.getElementById(
 document.getElementById(
 "lowStockLimit"
 )
-.value=
-item.lowStockLimit ?? 3;
+.value=item.lowStockLimit ?? 3;
 
 
 
@@ -639,6 +610,7 @@ item.image || "";
 
 
 if(imageData){
+
 
 
 let img =
@@ -665,6 +637,7 @@ item.variants.forEach(v=>{
 addVariantEditor(v);
 
 
+
 });
 
 
@@ -675,9 +648,17 @@ else{
 
 
 document.getElementById(
+"editorTitle"
+)
+.innerHTML="Add Item";
+
+
+
+document.getElementById(
 "itemName"
 )
 .value="";
+
 
 
 }
@@ -726,6 +707,7 @@ function addVariantEditor(v={}){
 if(!v.barcode)
 
 v.barcode=createBarcode();
+
 
 
 
@@ -789,6 +771,7 @@ Remove Variant
 </button>
 
 
+
 `;
 
 
@@ -810,9 +793,7 @@ function saveItem(){
 
 
 let name =
-document.getElementById(
-"itemName"
-).value;
+document.getElementById("itemName").value;
 
 
 
@@ -826,14 +807,10 @@ return;
 
 
 
-
 let limit =
 Number(
-document.getElementById(
-"lowStockLimit"
-).value
+document.getElementById("lowStockLimit").value
 );
-
 
 
 
@@ -841,35 +818,28 @@ let variants=[];
 
 
 
-document.querySelectorAll(
-".variantEditor"
-)
+document.querySelectorAll(".variantEditor")
+
 .forEach(v=>{
 
 
 variants.push({
 
 
-name:
-v.querySelector(".vName").value,
+name:v.querySelector(".vName").value,
 
 
-price:
-Number(
+price:Number(
 v.querySelector(".vPrice").value
 ),
 
 
-
-stock:
-Number(
+stock:Number(
 v.querySelector(".vStock").value
 ),
 
 
-
-barcode:
-v.querySelector(".vBarcode").value,
+barcode:v.querySelector(".vBarcode").value,
 
 
 sold:0
@@ -879,9 +849,7 @@ sold:0
 });
 
 
-
 });
-
 
 
 
@@ -889,14 +857,9 @@ sold:0
 
 if(variants.length===0){
 
-
-alert(
-"Add a variant"
-);
-
+alert("Add a variant");
 
 return;
-
 
 }
 
@@ -917,12 +880,9 @@ i=>i.id===editingID
 
 item.name=name;
 
-
 item.image=imageData;
 
-
 item.lowStockLimit=limit;
-
 
 item.variants=variants;
 
@@ -935,7 +895,6 @@ else{
 
 
 items.push({
-
 
 
 id:Date.now(),
@@ -962,9 +921,7 @@ variants:variants
 
 
 
-
 saveData();
-
 
 
 closeEditor();
@@ -986,7 +943,6 @@ renderInventory();
 
 // ===============================
 // INVENTORY
-// NO BARCODES
 // ===============================
 
 
@@ -1022,6 +978,7 @@ document.getElementById(
 
 
 
+
 items
 .filter(item=>
 
@@ -1034,9 +991,7 @@ item.name
 .forEach(item=>{
 
 
-
 let total=0;
-
 
 
 item.variants.forEach(v=>{
@@ -1051,9 +1006,7 @@ total+=v.stock;
 
 
 
-
-box.innerHTML+=`
-
+box.innerHTML +=`
 
 
 <div class="card">
@@ -1068,37 +1021,27 @@ ${item.image ?
 
 
 
-
 <h2>
-
 ${item.name}
-
 </h2>
 
 
 
-
 <h3>
-
-Total Stock:
-${total}
-
+Total Stock: ${total}
 </h3>
 
 
 
-
 ${item.variants.map(
-(v,index)=>`
+(v,i)=>`
 
 
 <div class="variantEditor">
 
 
 <h3>
-
 ${v.name}
-
 </h3>
 
 
@@ -1122,9 +1065,9 @@ ${v.stock}
 
 <button class="smallButton"
 
-onclick="quickStock(${item.id},${index},1)">
+onclick="quickStock(${item.id},${i},1)">
 
-➕ Add Stock
+➕ Add
 
 </button>
 
@@ -1132,9 +1075,9 @@ onclick="quickStock(${item.id},${index},1)">
 
 <button class="smallButton"
 
-onclick="quickStock(${item.id},${index},-1)">
+onclick="quickStock(${item.id},${i},-1)">
 
-➖ Remove Stock
+➖ Remove
 
 </button>
 
@@ -1146,9 +1089,6 @@ onclick="quickStock(${item.id},${index},-1)">
 `
 
 ).join("")}
-
-
-
 
 
 
@@ -1195,21 +1135,17 @@ onclick="deleteItem(${item.id})">
 
 
 // ===============================
-// QUICK STOCK
+// STOCK BUTTONS
 // ===============================
 
 
-function quickStock(
-itemID,
-variantID,
-amount
-){
+function quickStock(id,variantID,amount){
 
 
 
 let item =
 items.find(
-i=>i.id===itemID
+i=>i.id===id
 );
 
 
@@ -1223,7 +1159,7 @@ variant.stock += amount;
 
 
 
-if(variant.stock<0)
+if(variant.stock < 0)
 
 variant.stock=0;
 
@@ -1233,9 +1169,7 @@ variant.stock=0;
 saveData();
 
 
-
 renderInventory();
-
 
 
 }
@@ -1257,10 +1191,7 @@ function deleteItem(id){
 
 
 
-if(confirm(
-"Delete item?"
-)){
-
+if(confirm("Delete item?")){
 
 
 items =
@@ -1271,7 +1202,6 @@ i=>i.id!==id
 
 
 saveData();
-
 
 
 renderInventory();
@@ -1314,7 +1244,6 @@ return;
 
 
 
-
 box.innerHTML="";
 
 
@@ -1333,22 +1262,21 @@ document.getElementById(
 
 
 
-
 items.forEach(item=>{
 
 
 
-item.variants.forEach((v,index)=>{
+item.variants.forEach((v,i)=>{
+
+
+
+let key =
+item.id+"-"+i;
 
 
 
 let text =
-
-item.name+
-
-" "+
-
-v.name;
+item.name+" "+v.name;
 
 
 
@@ -1362,69 +1290,47 @@ return;
 
 
 
-
-
-let id =
-
-item.id+
-"-"+
-index;
-
-
-
-
-
-box.innerHTML+=`
+box.innerHTML +=`
 
 
 
 <div class="barcodeCard">
 
 
-
 <input
-
-type="checkbox"
 
 class="barcodeCheck"
 
-data-id="${id}"
+type="checkbox"
 
-onchange="updateBarcodeSelection('${id}')"
+data-id="${key}"
+
+onchange="updateBarcodeSelection('${key}')"
 
 >
 
 
 
 <h3>
-
 ${item.name}
-
 </h3>
 
 
 
 <p>
-
-Variant:
 ${v.name}
-
 </p>
 
 
-
 <p>
-
-Price:
 $${v.price}
-
 </p>
 
 
 
 <svg
 
-id="barcodeImage-${id}"
+id="barcodeImage-${key}"
 
 class="barcodeImage">
 
@@ -1443,9 +1349,7 @@ ${v.barcode}
 </div>
 
 
-
 `;
-
 
 
 
@@ -1455,13 +1359,12 @@ setTimeout(()=>{
 
 let svg =
 document.getElementById(
-"barcodeImage-"+id
+"barcodeImage-"+key
 );
 
 
 
 if(svg){
-
 
 
 JsBarcode(
@@ -1487,8 +1390,7 @@ displayValue:false
 }
 
 
-},10);
-
+},20);
 
 
 
@@ -1510,27 +1412,20 @@ displayValue:false
 
 
 
-// ===============================
-// BARCODE SELECTION
-// ===============================
-
-
-
 function updateBarcodeSelection(id){
 
 
 
-let checked =
+let box =
 document.querySelector(
 
 `input[data-id="${id}"]`
 
-)
-.checked;
+);
 
 
 
-if(checked){
+if(box.checked){
 
 
 
@@ -1572,9 +1467,7 @@ function selectAllBarcodes(){
 
 
 document
-.querySelectorAll(
-".barcodeCheck"
-)
+.querySelectorAll(".barcodeCheck")
 
 .forEach(box=>{
 
@@ -1609,9 +1502,7 @@ selectedBarcodes=[];
 
 
 document
-.querySelectorAll(
-".barcodeCheck"
-)
+.querySelectorAll(".barcodeCheck")
 
 .forEach(box=>{
 
@@ -1624,20 +1515,112 @@ box.checked=false;
 
 
 }
+
+
+
+
+
+
+
+
+
 // ===============================
-// PRINT SELECTED BARCODES
+// IPAD BARCODE SCANNER
 // ===============================
 
 
-function printSelectedBarcodes(){
+function startScanner(){
 
 
 
-if(selectedBarcodes.length===0){
+document.getElementById(
+"scannerBox"
+)
+.classList.remove("hidden");
+
+
+
+scannerRunning=true;
+
+
+
+Quagga.init({
+
+
+inputStream:{
+
+
+name:"Live",
+
+
+type:"LiveStream",
+
+
+target:
+document.querySelector("#scanner"),
+
+
+
+constraints:{
+
+
+facingMode:{
+ideal:"environment"
+},
+
+
+width:{
+ideal:1280
+},
+
+
+height:{
+ideal:720
+}
+
+
+
+}
+
+
+},
+
+
+
+decoder:{
+
+
+readers:[
+
+
+"code_128_reader",
+
+"ean_reader",
+
+"ean_8_reader",
+
+"upc_reader"
+
+
+]
+
+
+}
+
+
+
+},function(err){
+
+
+
+if(err){
+
+
+console.log(err);
 
 
 alert(
-"Select barcodes first"
+"Camera could not start"
 );
 
 
@@ -1645,6 +1628,167 @@ return;
 
 
 }
+
+
+
+Quagga.start();
+
+
+
+});
+
+
+
+
+
+Quagga.offDetected();
+
+
+
+Quagga.onDetected(function(result){
+
+
+
+if(!scannerRunning)
+
+return;
+
+
+
+let code =
+result.codeResult.code;
+
+
+
+navigator.vibrate?.(100);
+
+
+
+findBarcode(code);
+
+
+
+stopScanner();
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+function stopScanner(){
+
+
+
+scannerRunning=false;
+
+
+
+try{
+
+Quagga.stop();
+
+}
+
+catch(e){}
+
+
+
+document.getElementById(
+"scannerBox"
+)
+.classList.add("hidden");
+
+
+
+}
+// ===============================
+// FIND BARCODE
+// ===============================
+
+
+function findBarcode(code){
+
+
+
+for(let item of items){
+
+
+
+for(let i=0;i<item.variants.length;i++){
+
+
+
+let v =
+item.variants[i];
+
+
+
+if(v.barcode===code){
+
+
+
+addToCart(
+item.id,
+i
+);
+
+
+
+alert(
+item.name+
+" added"
+);
+
+
+
+return;
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+alert(
+"Barcode not found"
+);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ===============================
+// PRINT BARCODE LABELS
+// ===============================
+
+
+function printSelectedBarcodes(){
 
 
 
@@ -1656,14 +1800,14 @@ selectedBarcodes.forEach(id=>{
 
 
 
-let parts =
+let p =
 id.split("-");
 
 
 
 let item =
 items.find(
-i=>i.id==parts[0]
+x=>x.id==p[0]
 );
 
 
@@ -1672,8 +1816,8 @@ if(item){
 
 
 
-let variant =
-item.variants[parts[1]];
+let v =
+item.variants[p[1]];
 
 
 
@@ -1681,11 +1825,11 @@ list.push({
 
 name:item.name,
 
-variant:variant.name,
+variant:v.name,
 
-price:variant.price,
+price:v.price,
 
-barcode:variant.barcode
+barcode:v.barcode
 
 
 });
@@ -1699,6 +1843,16 @@ barcode:variant.barcode
 });
 
 
+
+if(list.length===0){
+
+alert(
+"Select barcodes first"
+);
+
+return;
+
+}
 
 
 
@@ -1713,12 +1867,6 @@ printBarcodeLabels(list);
 
 
 
-
-
-
-// ===============================
-// PRINT ALL BARCODES
-// ===============================
 
 
 function printAllBarcodes(){
@@ -1738,7 +1886,6 @@ item.variants.forEach(v=>{
 
 
 list.push({
-
 
 
 name:item.name,
@@ -1766,8 +1913,6 @@ barcode:v.barcode
 
 
 
-
-
 printBarcodeLabels(list);
 
 
@@ -1782,19 +1927,12 @@ printBarcodeLabels(list);
 
 
 
-// ===============================
-// PRINT LABEL PAGE
-// ===============================
-
-
 function printBarcodeLabels(list){
 
 
 
 let area =
-document.createElement(
-"div"
-);
+document.createElement("div");
 
 
 
@@ -1802,47 +1940,35 @@ area.id="printArea";
 
 
 
-area.className="printArea";
-
-
-
 list.forEach(b=>{
 
 
 
-let label =
-document.createElement(
-"div"
-);
+let div =
+document.createElement("div");
 
 
 
-label.className="printLabel";
+div.className="printLabel";
 
 
 
-label.innerHTML=`
+div.innerHTML=`
 
 
 <b>
 ${b.name}
 </b>
 
-
 <br>
-
 
 ${b.variant}
 
-
 <br>
-
 
 <svg></svg>
 
-
 <br>
-
 
 $${b.price}
 
@@ -1852,21 +1978,13 @@ $${b.price}
 
 
 
-area.appendChild(label);
-
-
-
-
-let svg =
-label.querySelector(
-"svg"
-);
+area.appendChild(div);
 
 
 
 JsBarcode(
 
-svg,
+div.querySelector("svg"),
 
 b.barcode,
 
@@ -1874,7 +1992,7 @@ b.barcode,
 
 format:"CODE128",
 
-height:50,
+height:45,
 
 displayValue:true
 
@@ -1885,7 +2003,6 @@ displayValue:true
 
 
 });
-
 
 
 
@@ -1912,7 +2029,7 @@ area.remove();
 
 
 // ===============================
-// CHECKOUT PRODUCTS
+// CHECKOUT
 // ===============================
 
 
@@ -1937,26 +2054,7 @@ box.innerHTML="";
 
 
 
-let search =
-document.getElementById(
-"checkoutSearch"
-)
-.value.toLowerCase();
-
-
-
-
-
-items
-.filter(item=>
-
-item.name
-.toLowerCase()
-.includes(search)
-
-)
-
-.forEach(item=>{
+items.forEach(item=>{
 
 
 
@@ -1968,7 +2066,6 @@ box.innerHTML+=`
 onclick="openVariants(${item.id})">
 
 
-
 ${item.image ?
 
 `<img src="${item.image}">`
@@ -1976,8 +2073,8 @@ ${item.image ?
 :""}
 
 
-
 ${item.name}
+
 
 
 </button>
@@ -2006,26 +2103,19 @@ renderCart();
 
 
 
-// ===============================
-// VARIANT POPUP
-// ===============================
-
-
 function openVariants(id){
 
 
 
 let item =
 items.find(
-i=>i.id===id
+x=>x.id===id
 );
 
 
 
 let popup =
-document.createElement(
-"div"
-);
+document.createElement("div");
 
 
 
@@ -2040,9 +2130,7 @@ popup.innerHTML=`
 
 
 <h2>
-
 ${item.name}
-
 </h2>
 
 
@@ -2059,11 +2147,9 @@ this.closest('.popup').remove();">
 
 ${v.name}
 
-
 <br>
 
 $${v.price}
-
 
 <br>
 
@@ -2076,6 +2162,7 @@ ${v.stock}
 
 `
 ).join("")}
+
 
 
 
@@ -2122,17 +2209,18 @@ function addToCart(id,variantID){
 
 let item =
 items.find(
-i=>i.id===id
+x=>x.id===id
 );
 
 
 
-let variant =
+let v =
 item.variants[variantID];
 
 
 
-if(variant.stock<=0){
+if(v.stock<=0){
+
 
 
 alert(
@@ -2140,11 +2228,10 @@ alert(
 );
 
 
+
 return;
 
-
 }
-
 
 
 
@@ -2152,11 +2239,9 @@ let found =
 cart.find(c=>
 
 c.id===id &&
-
 c.variant===variantID
 
 );
-
 
 
 
@@ -2183,16 +2268,18 @@ variant:variantID,
 name:item.name,
 
 
-variantName:variant.name,
+variantName:v.name,
 
 
-price:variant.price,
+price:v.price,
 
 
 qty:1
 
 
+
 });
+
 
 
 }
@@ -2230,7 +2317,6 @@ return;
 
 
 
-
 box.innerHTML="";
 
 
@@ -2255,7 +2341,6 @@ total+=cost;
 box.innerHTML+=`
 
 
-
 <div class="cartItem">
 
 
@@ -2271,15 +2356,13 @@ ${c.variantName}
 
 <br>
 
-
 Qty:
 ${c.qty}
 
 
 <br>
 
-
-$${cost}
+$${cost.toFixed(2)}
 
 
 
@@ -2304,19 +2387,18 @@ Remove
 
 
 
-
-
 document.getElementById(
 "cartTotal"
 )
 .innerHTML=
 
 "Total: $"+
-total;
+total.toFixed(2);
 
 
 
 }
+
 
 
 
@@ -2328,14 +2410,13 @@ total;
 function removeCart(i){
 
 
-cart.splice(
-i,
-1
-);
+
+cart.splice(i,1);
 
 
 
 renderCart();
+
 
 
 }
@@ -2345,10 +2426,13 @@ renderCart();
 function clearCart(){
 
 
+
 cart=[];
 
 
+
 renderCart();
+
 
 
 }
@@ -2362,7 +2446,7 @@ renderCart();
 
 
 // ===============================
-// PAYMENT
+// PAYMENTS
 // ===============================
 
 
@@ -2390,7 +2474,10 @@ document.getElementById(
 .classList.remove("hidden");
 
 
+
 }
+
+
 
 
 
@@ -2404,8 +2491,8 @@ document.getElementById(
 .classList.add("hidden");
 
 
-}
 
+}
 
 
 
@@ -2428,7 +2515,7 @@ cart.forEach(c=>{
 
 let item =
 items.find(
-i=>i.id===c.id
+x=>x.id===c.id
 );
 
 
@@ -2438,7 +2525,7 @@ item.variants[c.variant];
 
 
 
-v.stock-=c.qty;
+v.stock -= c.qty;
 
 
 
@@ -2448,12 +2535,12 @@ v.stock=0;
 
 
 
-stats.sold+=c.qty;
+stats.sold += c.qty;
 
 
 
-total+=
-c.qty*c.price;
+total +=
+v.price*c.qty;
 
 
 
@@ -2462,22 +2549,26 @@ c.qty*c.price;
 
 
 
-stats.sales+=total;
+
+stats.sales += total;
 
 
 
 if(method==="cash")
-stats.cash+=total;
+
+stats.cash += total;
 
 
 
 if(method==="card")
-stats.card+=total;
+
+stats.card += total;
 
 
 
 if(method==="other")
-stats.other+=total;
+
+stats.other += total;
 
 
 
@@ -2492,14 +2583,127 @@ saveData();
 closePayment();
 
 
-
 renderInventory();
-
 
 renderCheckout();
 
-
 renderStats();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ===============================
+// ALERTS
+// ===============================
+
+
+function renderAlerts(){
+
+
+
+let box =
+document.getElementById(
+"alertsList"
+);
+
+
+
+if(!box)
+
+return;
+
+
+
+box.innerHTML="";
+
+
+
+items.forEach(item=>{
+
+
+
+item.variants.forEach(v=>{
+
+
+
+let limit =
+item.lowStockLimit || 3;
+
+
+
+if(v.stock===0){
+
+
+
+box.innerHTML+=`
+
+<div class="card out">
+
+🔴 OUT OF STOCK
+
+<br>
+
+${item.name}
+
+<br>
+
+${v.name}
+
+</div>
+
+`;
+
+
+
+}
+
+else if(v.stock<=limit){
+
+
+
+box.innerHTML+=`
+
+<div class="card low">
+
+🟡 LOW STOCK
+
+<br>
+
+${item.name}
+
+<br>
+
+${v.name}
+
+<br>
+
+Stock:
+${v.stock}
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+});
+
+
+
+});
 
 
 
@@ -2522,7 +2726,7 @@ function renderStats(){
 
 
 
-let count=0;
+let remaining=0;
 
 
 
@@ -2532,7 +2736,7 @@ items.forEach(i=>{
 i.variants.forEach(v=>{
 
 
-count+=v.stock;
+remaining+=v.stock;
 
 
 });
@@ -2563,7 +2767,7 @@ document.getElementById(
 "remaining"
 ).innerHTML=
 
-count;
+remaining;
 
 
 
@@ -2604,6 +2808,45 @@ stats.other.toFixed(2);
 
 
 
+function resetStats(){
+
+
+
+stats={
+
+
+sales:0,
+
+sold:0,
+
+cash:0,
+
+card:0,
+
+other:0
+
+
+};
+
+
+
+saveData();
+
+
+renderStats();
+
+
+
+}
+
+
+
+
+
+
+
+
+
 // ===============================
 // START APP
 // ===============================
@@ -2621,5 +2864,6 @@ if(craftShowMode){
 document.body.classList.add(
 "craftMode"
 );
+
 
 }

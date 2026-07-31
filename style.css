@@ -5,18 +5,22 @@
 
 
 body {
+
     margin:0;
     background:white;
     color:black;
+
 }
+
+
 
 
 header {
 
     background:black;
     color:white;
-    padding:20px;
     text-align:center;
+    padding:20px;
 
 }
 
@@ -31,8 +35,9 @@ header h1 {
 
 
 
-/* NAVIGATION */
 
+
+/* NAV */
 
 nav {
 
@@ -44,15 +49,14 @@ nav {
 }
 
 
-
 nav button {
 
     flex:1;
     padding:14px;
-    font-size:17px;
+    font-size:16px;
     font-weight:bold;
-    background:white;
     border:3px solid black;
+    background:white;
     border-radius:15px;
 
 }
@@ -84,7 +88,6 @@ nav button {
 
 
 
-
 /* INPUTS */
 
 
@@ -92,13 +95,12 @@ input {
 
     width:100%;
     padding:15px;
-    margin:8px 0 15px;
+    margin:10px 0;
     font-size:20px;
     border:3px solid black;
     border-radius:12px;
 
 }
-
 
 
 
@@ -118,8 +120,8 @@ input {
     font-weight:bold;
     background:black;
     color:white;
-    border:3px solid black;
     border-radius:18px;
+    border:3px solid black;
 
 }
 
@@ -152,7 +154,7 @@ input {
 
 
 
-/* CRAFT SHOW MODE */
+/* CRAFT MODE */
 
 
 .craftButton {
@@ -168,6 +170,7 @@ input {
     font-size:32px;
 
 }
+
 
 
 
@@ -203,45 +206,20 @@ input {
 
 
 
-/* INVENTORY */
-
-
-.variantEditor {
-
-    border:3px solid black;
-    border-radius:15px;
-    padding:12px;
-    margin:10px 0;
-
-}
-
-
-
-
-
 
 
 /* PRODUCTS */
 
 
-.productGrid {
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-
-}
-
-
-
 .productButton {
 
-    min-height:180px;
-    padding:15px;
+    width:100%;
+    min-height:190px;
+    margin:10px 0;
     background:white;
     border:4px solid black;
     border-radius:20px;
-    font-size:25px;
+    font-size:26px;
     font-weight:bold;
 
 }
@@ -251,8 +229,9 @@ input {
 .productButton img {
 
     width:100%;
-    height:150px;
+    height:160px;
     object-fit:cover;
+    border-radius:15px;
 
 }
 
@@ -282,6 +261,8 @@ input {
 
 
 
+
+
 /* PAYMENT */
 
 
@@ -297,6 +278,8 @@ input {
     border-radius:18px;
 
 }
+
+
 
 
 
@@ -326,14 +309,14 @@ input {
 
 .popupBox {
 
-    background:white;
     width:95%;
     max-width:600px;
-    padding:20px;
-    border:4px solid black;
-    border-radius:20px;
     max-height:90vh;
     overflow:auto;
+    background:white;
+    border:4px solid black;
+    border-radius:20px;
+    padding:20px;
 
 }
 
@@ -342,7 +325,59 @@ input {
 
 
 
-/* BARCODE MANAGER */
+
+/* SCANNER FIX */
+
+
+#scannerBox {
+
+    background:white;
+    border:4px solid black;
+    border-radius:20px;
+    padding:15px;
+    margin-top:15px;
+
+}
+
+
+
+#scanner {
+
+    width:100%;
+    height:320px;
+    background:black;
+    overflow:hidden;
+    border-radius:15px;
+
+}
+
+
+
+#scanner video {
+
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover;
+
+}
+
+
+
+
+video {
+
+    transform:scaleX(1);
+
+}
+
+
+
+
+
+
+
+
+/* BARCODE PAGE */
 
 
 .barcodeCard {
@@ -356,11 +391,9 @@ input {
 
 
 
-.barcodeCard input {
+.barcodeCheck {
 
-    width:auto;
     transform:scale(1.8);
-    margin-right:15px;
 
 }
 
@@ -378,8 +411,8 @@ input {
 .barcodeNumber {
 
     font-size:20px;
-    font-weight:bold;
     letter-spacing:3px;
+    font-weight:bold;
 
 }
 
@@ -389,34 +422,27 @@ input {
 
 
 
-/* SCANNER */
+
+/* PRINTING */
 
 
-#scannerBox {
+.printArea {
 
-    border:4px solid black;
-    border-radius:20px;
-    padding:15px;
-
-}
-
-
-
-#scanner {
-
-    width:100%;
-    min-height:250px;
-    background:black;
-    border-radius:15px;
-    overflow:hidden;
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
 
 }
 
 
 
-#scanner video {
+.printLabel {
 
-    width:100%;
+    width:250px;
+    height:130px;
+    border:2px solid black;
+    text-align:center;
+    padding:10px;
 
 }
 
@@ -424,28 +450,36 @@ input {
 
 
 
+@media print {
 
 
-/* ALERTS */
+body * {
 
-
-.low {
-
-    background:#eeeeee;
-    border:3px solid black;
-    padding:12px;
+    visibility:hidden;
 
 }
 
 
+#printArea,
+#printArea * {
 
-.out {
-
-    background:black;
-    color:white;
-    padding:12px;
+    visibility:visible;
 
 }
+
+
+#printArea {
+
+    position:absolute;
+    left:0;
+    top:0;
+
+}
+
+
+}
+
+
 
 
 
@@ -480,85 +514,25 @@ input {
 
 
 
-/* PRINT BARCODE LABELS */
+
+/* IPAD OPTIMIZATION */
 
 
-.printArea {
+@media(max-width:900px){
 
-    display:flex;
+
+
+nav {
+
     flex-wrap:wrap;
-    gap:15px;
 
 }
 
-
-
-.printLabel {
-
-    width:250px;
-    height:130px;
-    border:2px solid black;
-    padding:10px;
-    text-align:center;
-
-}
-
-
-
-@media print {
-
-
-    body * {
-
-        visibility:hidden;
-
-    }
-
-
-    #printArea,
-    #printArea * {
-
-        visibility:visible;
-
-    }
-
-
-    #printArea {
-
-        position:absolute;
-        left:0;
-        top:0;
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
-/* IPAD */
-
-
-@media(max-width:700px){
 
 
 nav button {
 
-    font-size:13px;
-    padding:12px;
-
-}
-
-
-
-.productGrid {
-
-    grid-template-columns:1fr;
+    min-width:30%;
 
 }
 
@@ -566,7 +540,7 @@ nav button {
 
 .bigButton {
 
-    font-size:23px;
+    font-size:24px;
 
 }
 

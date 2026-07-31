@@ -14,7 +14,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 
-
 </head>
 
 
@@ -30,14 +29,11 @@
 
 
 
-
 <nav>
-
 
 <button onclick="showPage('inventory')">
 📦 Inventory
 </button>
-
 
 
 <button onclick="showPage('checkout')">
@@ -45,11 +41,9 @@
 </button>
 
 
-
 <button onclick="showPage('barcodes')">
 🏷️ Barcodes
 </button>
-
 
 
 <button onclick="showPage('alerts')">
@@ -57,11 +51,9 @@
 </button>
 
 
-
 <button onclick="showPage('dashboard')">
 📊 Stats
 </button>
-
 
 
 <button onclick="showPage('settings')">
@@ -76,14 +68,11 @@
 
 
 <button class="bigButton craftButton"
-
 onclick="toggleCraftMode()">
 
-🎪 Start Craft Show Mode
+🎪 Craft Show Mode
 
 </button>
-
-
 
 
 
@@ -93,7 +82,6 @@ onclick="toggleCraftMode()">
 
 <!-- INVENTORY -->
 
-
 <section id="inventory" class="page">
 
 
@@ -102,27 +90,17 @@ onclick="toggleCraftMode()">
 </h2>
 
 
-
-<input
-
-id="inventorySearch"
-
+<input id="inventorySearch"
 placeholder="Search inventory..."
-
-oninput="renderInventory()"
-
->
-
+oninput="renderInventory()">
 
 
 <button class="bigButton"
-
 onclick="openItemEditor()">
 
 ➕ Add Item
 
 </button>
-
 
 
 <div id="inventoryList"></div>
@@ -152,7 +130,6 @@ onclick="openItemEditor()">
 
 
 <button class="bigButton"
-
 onclick="startScanner()">
 
 📷 Scan Barcode
@@ -161,19 +138,31 @@ onclick="startScanner()">
 
 
 
+
+
 <div id="scannerBox" class="hidden">
 
 
-<div id="scanner"></div>
+<h3>
+Point camera at barcode
+</h3>
+
+
+
+<div id="scanner">
+
+</div>
+
+
 
 
 <button class="bigButton danger"
-
 onclick="stopScanner()">
 
-Close Scanner
+Close Camera
 
 </button>
+
 
 
 </div>
@@ -182,15 +171,15 @@ Close Scanner
 
 
 
-<input
 
-id="checkoutSearch"
+
+<input id="checkoutSearch"
 
 placeholder="Search products..."
 
-oninput="renderCheckout()"
+oninput="renderCheckout()">
 
->
+
 
 
 
@@ -198,9 +187,12 @@ oninput="renderCheckout()"
 
 
 
+
+
 <h2>
 Cart
 </h2>
+
 
 
 <div id="cart"></div>
@@ -235,6 +227,7 @@ CHECKOUT
 </button>
 
 
+
 </section>
 
 
@@ -245,7 +238,7 @@ CHECKOUT
 
 
 
-<!-- BARCODE PAGE -->
+<!-- BARCODES -->
 
 
 <section id="barcodes" class="page hidden">
@@ -257,16 +250,12 @@ CHECKOUT
 
 
 
-
-<input
-
-id="barcodeSearch"
+<input id="barcodeSearch"
 
 placeholder="Search barcodes..."
 
-oninput="renderBarcodes()"
+oninput="renderBarcodes()">
 
->
 
 
 
@@ -304,7 +293,6 @@ onclick="printSelectedBarcodes()">
 
 
 
-
 <button class="bigButton"
 
 onclick="printAllBarcodes()">
@@ -312,7 +300,6 @@ onclick="printAllBarcodes()">
 🖨️ Print All
 
 </button>
-
 
 
 
@@ -367,10 +354,13 @@ onclick="printAllBarcodes()">
 
 
 
+
 <div class="stats">
 
 
-<h3>Total Sales</h3>
+<h3>
+Total Sales
+</h3>
 
 <p id="sales">
 $0
@@ -378,7 +368,9 @@ $0
 
 
 
-<h3>Items Sold</h3>
+<h3>
+Items Sold
+</h3>
 
 <p id="sold">
 0
@@ -386,7 +378,9 @@ $0
 
 
 
-<h3>Items Remaining</h3>
+<h3>
+Items Remaining
+</h3>
 
 <p id="remaining">
 0
@@ -394,7 +388,10 @@ $0
 
 
 
-<h3>Low Stock</h3>
+
+<h3>
+Low Stock
+</h3>
 
 <p id="lowStock">
 0
@@ -403,9 +400,8 @@ $0
 
 
 <h2>
-Payment Breakdown
+Payments
 </h2>
-
 
 
 <p>
@@ -414,12 +410,10 @@ Payment Breakdown
 </p>
 
 
-
 <p>
 💳 Card:
 <span id="cardSales">$0</span>
 </p>
-
 
 
 <p>
@@ -439,9 +433,10 @@ Payment Breakdown
 
 onclick="resetStats()">
 
-Reset Event Stats
+Reset Event
 
 </button>
+
 
 
 
@@ -471,7 +466,7 @@ Reset Event Stats
 
 
 <h3>
-💾 Backup & Restore
+Backup / Restore
 </h3>
 
 
@@ -498,9 +493,7 @@ Import Backup
 
 
 
-<input
-
-id="backupFile"
+<input id="backupFile"
 
 type="file"
 
@@ -508,10 +501,7 @@ accept=".json"
 
 style="display:none"
 
-onchange="importBackup(event)"
-
->
-
+onchange="importBackup(event)">
 
 
 </div>
@@ -574,6 +564,7 @@ onclick="completePayment('other')">
 
 
 
+
 <button class="bigButton danger"
 
 onclick="closePayment()">
@@ -581,6 +572,7 @@ onclick="closePayment()">
 Cancel
 
 </button>
+
 
 
 </div>
@@ -612,49 +604,40 @@ Add Item
 
 
 
-<input
 
-type="file"
+<input type="file"
 
 id="itemImage"
 
 accept="image/*"
 
-capture="environment"
-
->
+capture="environment">
 
 
 
-<img
+<img id="previewImage"
 
-id="previewImage"
-
-class="preview"
-
->
+class="preview">
 
 
 
-<input
 
-id="itemName"
 
-placeholder="Item name"
+<input id="itemName"
 
->
+placeholder="Item name">
 
 
 
-<input
 
-id="lowStockLimit"
+
+<input id="lowStockLimit"
 
 type="number"
 
-value="3"
+value="3">
 
->
+
 
 
 
@@ -665,6 +648,7 @@ Variants
 
 
 <div id="variantEditor"></div>
+
 
 
 
@@ -699,10 +683,12 @@ Cancel
 </button>
 
 
+
+</div>
+
 </div>
 
 
-</div>
 
 
 
