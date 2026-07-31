@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Craft POS</title>
+
+<link rel="stylesheet" href="style.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🧶 Craft POS</h1>
+
+</header>
+
+
+
+
+
+<nav>
+
+
+<button onclick="showPage('inventory')">
+📦 Inventory
+</button>
+
+
+
+<button onclick="showPage('checkout')">
+🛒 Checkout
+</button>
+
+
+
+<button onclick="showPage('barcodes')">
+🏷️ Barcodes
+</button>
+
+
+
+<button onclick="showPage('alerts')">
+🚨 Alerts
+</button>
+
+
+
+<button onclick="showPage('dashboard')">
+📊 Stats
+</button>
+
+
+
+<button onclick="showPage('settings')">
+⚙️ Settings
+</button>
+
+
+</nav>
+
+
+
+
+
+<button class="bigButton craftButton"
+
+onclick="toggleCraftMode()">
+
+🎪 Start Craft Show Mode
+
+</button>
+
+
+
+
+
+
+
+
+
+<!-- INVENTORY -->
+
+
+<section id="inventory" class="page">
+
+
+<h2>
+📦 Inventory
+</h2>
+
+
+
+<input
+
+id="inventorySearch"
+
+placeholder="Search inventory..."
+
+oninput="renderInventory()"
+
+>
+
+
+
+<button class="bigButton"
+
+onclick="openItemEditor()">
+
+➕ Add Item
+
+</button>
+
+
+
+<div id="inventoryList"></div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- CHECKOUT -->
+
+
+<section id="checkout" class="page hidden">
+
+
+<h2>
+🛒 Checkout
+</h2>
+
+
+
+
+<button class="bigButton"
+
+onclick="startScanner()">
+
+📷 Scan Barcode
+
+</button>
+
+
+
+<div id="scannerBox" class="hidden">
+
+
+<div id="scanner"></div>
+
+
+<button class="bigButton danger"
+
+onclick="stopScanner()">
+
+Close Scanner
+
+</button>
+
+
+</div>
+
+
+
+
+
+<input
+
+id="checkoutSearch"
+
+placeholder="Search products..."
+
+oninput="renderCheckout()"
+
+>
+
+
+
+<div id="productButtons"></div>
+
+
+
+<h2>
+Cart
+</h2>
+
+
+<div id="cart"></div>
+
+
+
+<h2 id="cartTotal">
+
+Total: $0
+
+</h2>
+
+
+
+<button class="bigButton danger"
+
+onclick="clearCart()">
+
+Clear Cart
+
+</button>
+
+
+
+
+<button class="bigButton"
+
+onclick="openPayment()">
+
+CHECKOUT
+
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- BARCODE PAGE -->
+
+
+<section id="barcodes" class="page hidden">
+
+
+<h2>
+🏷️ Barcode Manager
+</h2>
+
+
+
+
+<input
+
+id="barcodeSearch"
+
+placeholder="Search barcodes..."
+
+oninput="renderBarcodes()"
+
+>
+
+
+
+
+<button class="bigButton"
+
+onclick="selectAllBarcodes()">
+
+☑ Select All
+
+</button>
+
+
+
+
+<button class="bigButton"
+
+onclick="clearBarcodeSelection()">
+
+Clear Selection
+
+</button>
+
+
+
+
+
+<button class="bigButton"
+
+onclick="printSelectedBarcodes()">
+
+🖨️ Print Selected
+
+</button>
+
+
+
+
+<button class="bigButton"
+
+onclick="printAllBarcodes()">
+
+🖨️ Print All
+
+</button>
+
+
+
+
+
+<div id="barcodeList"></div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ALERTS -->
+
+
+<section id="alerts" class="page hidden">
+
+
+<h2>
+🚨 Stock Alerts
+</h2>
+
+
+<div id="alertsList"></div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- DASHBOARD -->
+
+
+<section id="dashboard" class="page hidden">
+
+
+<h2>
+📊 Event Stats
+</h2>
+
+
+
+<div class="stats">
+
+
+<h3>Total Sales</h3>
+
+<p id="sales">
+$0
+</p>
+
+
+
+<h3>Items Sold</h3>
+
+<p id="sold">
+0
+</p>
+
+
+
+<h3>Items Remaining</h3>
+
+<p id="remaining">
+0
+</p>
+
+
+
+<h3>Low Stock</h3>
+
+<p id="lowStock">
+0
+</p>
+
+
+
+<h2>
+Payment Breakdown
+</h2>
+
+
+
+<p>
+💵 Cash:
+<span id="cashSales">$0</span>
+</p>
+
+
+
+<p>
+💳 Card:
+<span id="cardSales">$0</span>
+</p>
+
+
+
+<p>
+📱 Other:
+<span id="otherSales">$0</span>
+</p>
+
+
+
+</div>
+
+
+
+
+
+<button class="bigButton danger"
+
+onclick="resetStats()">
+
+Reset Event Stats
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- SETTINGS -->
+
+
+<section id="settings" class="page hidden">
+
+
+<h2>
+⚙️ Settings
+</h2>
+
+
+
+<div class="card">
+
+
+<h3>
+💾 Backup & Restore
+</h3>
+
+
+
+<button class="bigButton"
+
+onclick="exportBackup()">
+
+Export Backup
+
+</button>
+
+
+
+
+<button class="bigButton"
+
+onclick="document.getElementById('backupFile').click()">
+
+Import Backup
+
+</button>
+
+
+
+
+<input
+
+id="backupFile"
+
+type="file"
+
+accept=".json"
+
+style="display:none"
+
+onchange="importBackup(event)"
+
+>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- PAYMENT POPUP -->
+
+
+<div id="paymentPopup"
+
+class="popup hidden">
+
+
+<div class="popupBox">
+
+
+<h2>
+Payment Method
+</h2>
+
+
+
+<button class="paymentButton"
+
+onclick="completePayment('cash')">
+
+💵 Cash
+
+</button>
+
+
+
+<button class="paymentButton"
+
+onclick="completePayment('card')">
+
+💳 Card
+
+</button>
+
+
+
+<button class="paymentButton"
+
+onclick="completePayment('other')">
+
+📱 Other
+
+</button>
+
+
+
+<button class="bigButton danger"
+
+onclick="closePayment()">
+
+Cancel
+
+</button>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ITEM EDITOR -->
+
+
+<div id="editorPopup"
+
+class="popup hidden">
+
+
+<div class="popupBox">
+
+
+<h2 id="editorTitle">
+Add Item
+</h2>
+
+
+
+<input
+
+type="file"
+
+id="itemImage"
+
+accept="image/*"
+
+capture="environment"
+
+>
+
+
+
+<img
+
+id="previewImage"
+
+class="preview"
+
+>
+
+
+
+<input
+
+id="itemName"
+
+placeholder="Item name"
+
+>
+
+
+
+<input
+
+id="lowStockLimit"
+
+type="number"
+
+value="3"
+
+>
+
+
+
+<h3>
+Variants
+</h3>
+
+
+
+<div id="variantEditor"></div>
+
+
+
+<button class="smallButton"
+
+onclick="addVariantEditor()">
+
+Add Variant
+
+</button>
+
+
+
+
+<button class="bigButton"
+
+onclick="saveItem()">
+
+Save
+
+</button>
+
+
+
+
+<button class="bigButton danger"
+
+onclick="closeEditor()">
+
+Cancel
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>

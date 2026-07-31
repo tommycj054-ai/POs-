@@ -1,0 +1,582 @@
+* {
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body {
+    margin:0;
+    background:white;
+    color:black;
+}
+
+
+header {
+
+    background:black;
+    color:white;
+    padding:20px;
+    text-align:center;
+
+}
+
+
+header h1 {
+
+    margin:0;
+    font-size:36px;
+
+}
+
+
+
+
+/* NAVIGATION */
+
+
+nav {
+
+    display:flex;
+    gap:8px;
+    padding:10px;
+    background:#eeeeee;
+
+}
+
+
+
+nav button {
+
+    flex:1;
+    padding:14px;
+    font-size:17px;
+    font-weight:bold;
+    background:white;
+    border:3px solid black;
+    border-radius:15px;
+
+}
+
+
+
+
+
+
+
+/* PAGES */
+
+
+.page {
+
+    padding:15px;
+
+}
+
+
+.hidden {
+
+    display:none !important;
+
+}
+
+
+
+
+
+
+
+/* INPUTS */
+
+
+input {
+
+    width:100%;
+    padding:15px;
+    margin:8px 0 15px;
+    font-size:20px;
+    border:3px solid black;
+    border-radius:12px;
+
+}
+
+
+
+
+
+
+
+
+/* BUTTONS */
+
+
+.bigButton {
+
+    width:100%;
+    padding:22px;
+    margin:10px 0;
+    font-size:25px;
+    font-weight:bold;
+    background:black;
+    color:white;
+    border:3px solid black;
+    border-radius:18px;
+
+}
+
+
+
+.smallButton {
+
+    padding:12px;
+    margin:5px;
+    font-size:18px;
+    font-weight:bold;
+    background:white;
+    border:3px solid black;
+    border-radius:12px;
+
+}
+
+
+
+.danger {
+
+    background:white;
+    color:black;
+
+}
+
+
+
+
+
+
+
+/* CRAFT SHOW MODE */
+
+
+.craftButton {
+
+    font-size:28px;
+
+}
+
+
+.craftMode .productButton {
+
+    min-height:240px;
+    font-size:32px;
+
+}
+
+
+
+
+
+
+
+/* CARDS */
+
+
+.card {
+
+    border:3px solid black;
+    border-radius:18px;
+    padding:15px;
+    margin:15px 0;
+
+}
+
+
+
+.card img {
+
+    width:100%;
+    max-height:250px;
+    object-fit:contain;
+
+}
+
+
+
+
+
+
+
+/* INVENTORY */
+
+
+.variantEditor {
+
+    border:3px solid black;
+    border-radius:15px;
+    padding:12px;
+    margin:10px 0;
+
+}
+
+
+
+
+
+
+
+/* PRODUCTS */
+
+
+.productGrid {
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+
+}
+
+
+
+.productButton {
+
+    min-height:180px;
+    padding:15px;
+    background:white;
+    border:4px solid black;
+    border-radius:20px;
+    font-size:25px;
+    font-weight:bold;
+
+}
+
+
+
+.productButton img {
+
+    width:100%;
+    height:150px;
+    object-fit:cover;
+
+}
+
+
+
+
+
+
+
+
+/* CART */
+
+
+.cartItem {
+
+    border:3px solid black;
+    border-radius:15px;
+    padding:15px;
+    margin:10px 0;
+    font-size:22px;
+
+}
+
+
+
+
+
+
+
+/* PAYMENT */
+
+
+.paymentButton {
+
+    width:100%;
+    padding:25px;
+    margin:12px 0;
+    font-size:30px;
+    font-weight:bold;
+    background:white;
+    border:4px solid black;
+    border-radius:18px;
+
+}
+
+
+
+
+
+
+
+/* POPUPS */
+
+
+.popup {
+
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+
+}
+
+
+
+.popupBox {
+
+    background:white;
+    width:95%;
+    max-width:600px;
+    padding:20px;
+    border:4px solid black;
+    border-radius:20px;
+    max-height:90vh;
+    overflow:auto;
+
+}
+
+
+
+
+
+
+/* BARCODE MANAGER */
+
+
+.barcodeCard {
+
+    border:3px solid black;
+    border-radius:18px;
+    padding:15px;
+    margin:15px 0;
+
+}
+
+
+
+.barcodeCard input {
+
+    width:auto;
+    transform:scale(1.8);
+    margin-right:15px;
+
+}
+
+
+
+.barcodeImage {
+
+    width:100%;
+    max-width:300px;
+
+}
+
+
+
+.barcodeNumber {
+
+    font-size:20px;
+    font-weight:bold;
+    letter-spacing:3px;
+
+}
+
+
+
+
+
+
+
+/* SCANNER */
+
+
+#scannerBox {
+
+    border:4px solid black;
+    border-radius:20px;
+    padding:15px;
+
+}
+
+
+
+#scanner {
+
+    width:100%;
+    min-height:250px;
+    background:black;
+    border-radius:15px;
+    overflow:hidden;
+
+}
+
+
+
+#scanner video {
+
+    width:100%;
+
+}
+
+
+
+
+
+
+
+/* ALERTS */
+
+
+.low {
+
+    background:#eeeeee;
+    border:3px solid black;
+    padding:12px;
+
+}
+
+
+
+.out {
+
+    background:black;
+    color:white;
+    padding:12px;
+
+}
+
+
+
+
+
+
+
+/* DASHBOARD */
+
+
+.stats {
+
+    border:4px solid black;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+
+}
+
+
+
+.stats p {
+
+    font-size:35px;
+    font-weight:bold;
+
+}
+
+
+
+
+
+
+
+/* PRINT BARCODE LABELS */
+
+
+.printArea {
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+
+}
+
+
+
+.printLabel {
+
+    width:250px;
+    height:130px;
+    border:2px solid black;
+    padding:10px;
+    text-align:center;
+
+}
+
+
+
+@media print {
+
+
+    body * {
+
+        visibility:hidden;
+
+    }
+
+
+    #printArea,
+    #printArea * {
+
+        visibility:visible;
+
+    }
+
+
+    #printArea {
+
+        position:absolute;
+        left:0;
+        top:0;
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+/* IPAD */
+
+
+@media(max-width:700px){
+
+
+nav button {
+
+    font-size:13px;
+    padding:12px;
+
+}
+
+
+
+.productGrid {
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+.bigButton {
+
+    font-size:23px;
+
+}
+
+
+
+.productButton {
+
+    min-height:220px;
+
+}
+
+
+}
