@@ -1,7 +1,16 @@
+/* =====================================
+CRAFT POS V5.1
+BLACK & WHITE THEME
+===================================== */
+
+
 * {
+
     box-sizing:border-box;
     font-family:Arial, Helvetica, sans-serif;
+
 }
+
 
 
 body {
@@ -14,6 +23,12 @@ body {
 
 
 
+
+/* =====================
+HEADER
+===================== */
+
+
 header {
 
     background:black;
@@ -24,10 +39,11 @@ header {
 }
 
 
+
 header h1 {
 
+    font-size:42px;
     margin:0;
-    font-size:38px;
 
 }
 
@@ -36,16 +52,20 @@ header h1 {
 
 
 
-/* NAVIGATION */
+
+
+/* =====================
+NAVIGATION
+===================== */
 
 
 nav {
 
     display:flex;
     flex-wrap:wrap;
-    gap:8px;
+    gap:10px;
     padding:10px;
-    background:#eeeeee;
+    background:white;
 
 }
 
@@ -53,15 +73,22 @@ nav {
 
 nav button {
 
+
     flex:1;
-    min-width:120px;
-    padding:16px;
-    font-size:18px;
-    font-weight:bold;
-    background:white;
-    color:black;
+    min-width:130px;
+
+    padding:18px;
+
+    background:black;
+    color:white;
+
     border:3px solid black;
+
     border-radius:15px;
+
+    font-size:20px;
+    font-weight:bold;
+
 
 }
 
@@ -71,14 +98,18 @@ nav button {
 
 
 
-/* PAGES */
+
+/* =====================
+PAGES
+===================== */
 
 
 .page {
 
-    padding:15px;
+    padding:20px;
 
 }
+
 
 
 .hidden {
@@ -93,65 +124,113 @@ nav button {
 
 
 
-/* INPUTS */
 
-
-input {
-
-    width:100%;
-    padding:16px;
-    margin:10px 0;
-    font-size:20px;
-    border:3px solid black;
-    border-radius:12px;
-
-}
-
-
-
-
-
-
-
-
-
-/* BUTTONS */
+/* =====================
+BUTTONS
+===================== */
 
 
 .bigButton {
 
+
     width:100%;
+
     padding:25px;
+
     margin:10px 0;
-    font-size:26px;
-    font-weight:bold;
-    border:4px solid black;
-    border-radius:20px;
+
     background:black;
+
     color:white;
 
+    border:4px solid black;
+
+    border-radius:18px;
+
+    font-size:26px;
+
+    font-weight:bold;
+
+
 }
+
+
+
+
+.paymentButton {
+
+
+    width:100%;
+
+    padding:30px;
+
+    margin:10px 0;
+
+    background:black;
+
+    color:white;
+
+    border-radius:20px;
+
+    border:4px solid black;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+
+}
+
+
 
 
 
 .smallButton {
 
-    padding:14px;
+
+    padding:12px;
+
     margin:5px;
+
+    background:black;
+
+    color:white;
+
+    border-radius:10px;
+
     font-size:18px;
-    font-weight:bold;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================
+INPUTS
+===================== */
+
+
+input,
+select {
+
+
+    width:100%;
+
+    padding:18px;
+
+    margin:10px 0;
+
     border:3px solid black;
+
     border-radius:12px;
-    background:white;
 
-}
-
-
-
-.danger {
-
-    background:white;
-    color:black;
+    font-size:22px;
 
 }
 
@@ -163,40 +242,20 @@ input {
 
 
 
-/* CRAFT MODE */
-
-
-.craftButton {
-
-    font-size:30px;
-
-}
-
-
-
-.craftMode .productButton {
-
-    min-height:260px;
-    font-size:32px;
-
-}
-
-
-
-
-
-
-
-
-
-/* INVENTORY CARDS */
+/* =====================
+INVENTORY CARDS
+===================== */
 
 
 .card {
 
+
     border:4px solid black;
+
     border-radius:20px;
-    padding:18px;
+
+    padding:20px;
+
     margin:15px 0;
 
 }
@@ -205,21 +264,15 @@ input {
 
 .card img {
 
+
     width:100%;
+
     max-height:250px;
+
     object-fit:contain;
+
     border-radius:15px;
 
-}
-
-
-
-.variantEditor {
-
-    border:3px solid black;
-    border-radius:15px;
-    padding:12px;
-    margin:10px 0;
 
 }
 
@@ -228,41 +281,84 @@ input {
 
 
 
+.itemPreview {
+
+
+    width:200px;
+
+    height:200px;
+
+    object-fit:cover;
+
+
+}
 
 
 
-/* PRODUCTS */
 
 
-#productButtons {
+
+
+
+
+/* =====================
+CHECKOUT
+===================== */
+
+
+#productGrid {
+
 
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
     gap:15px;
 
+
 }
+
+
+
 
 
 
 .productButton {
 
-    min-height:220px;
-    border:4px solid black;
+
     background:white;
+
+    color:black;
+
+    border:4px solid black;
+
     border-radius:20px;
-    font-size:28px;
+
+    min-height:250px;
+
+    font-size:25px;
+
     font-weight:bold;
 
+
 }
+
 
 
 
 .productButton img {
 
+
     width:100%;
+
     height:160px;
+
     object-fit:cover;
+
     border-radius:15px;
+
 
 }
 
@@ -271,60 +367,21 @@ input {
 
 
 
-
-
-
-/* CART */
 
 
 .cartItem {
 
+
     border:3px solid black;
+
     border-radius:15px;
+
     padding:15px;
+
     margin:10px 0;
+
     font-size:22px;
 
-}
-
-
-
-
-
-
-
-
-
-/* SCANNER */
-
-
-#scannerBox {
-
-    border:4px solid black;
-    border-radius:20px;
-    padding:15px;
-
-}
-
-
-
-#scanner {
-
-    width:100%;
-    height:350px;
-    background:black;
-    border-radius:15px;
-    overflow:hidden;
-
-}
-
-
-
-#scanner video {
-
-    width:100% !important;
-    height:100% !important;
-    object-fit:cover;
 
 }
 
@@ -336,26 +393,36 @@ input {
 
 
 
-/* BARCODE PAGE */
+/* =====================
+BARCODE TAB ONLY
+===================== */
 
 
 .barcodeCard {
 
+
     border:4px solid black;
+
     border-radius:20px;
-    padding:15px;
+
+    padding:20px;
+
     margin:15px 0;
+
+    text-align:center;
+
 
 }
 
 
 
-.barcodeCard label {
+.barcodeCanvas {
 
-    display:block;
-    font-size:22px;
-    font-weight:bold;
-    padding:10px;
+
+    width:100%;
+
+    max-width:350px;
+
 
 }
 
@@ -363,28 +430,104 @@ input {
 
 .barcodeCheck {
 
+
     transform:scale(2);
-    margin-right:15px;
+
+    margin:15px;
+
 
 }
 
 
 
-.barcodeImage {
 
-    width:100%;
-    max-width:320px;
+
+
+
+
+
+/* =====================
+ALERTS
+===================== */
+
+
+.alertBox {
+
+
+    border:4px solid black;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin:15px 0;
+
+    font-size:24px;
+
 
 }
 
 
 
-.barcodeNumber {
+.lowStock {
 
-    font-size:20px;
-    letter-spacing:3px;
+
+    background:#eeeeee;
+
+
+}
+
+
+
+.outStock {
+
+
+    background:black;
+
+    color:white;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================
+DASHBOARD
+===================== */
+
+
+.statsCard {
+
+
+    border:4px solid black;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin:15px 0;
+
+    text-align:center;
+
+
+}
+
+
+
+.statsCard p {
+
+
+    font-size:40px;
+
     font-weight:bold;
 
+
 }
 
 
@@ -395,21 +538,31 @@ input {
 
 
 
-/* POPUPS */
+/* =====================
+POPUPS
+===================== */
 
 
 .popup {
 
+
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:100%;
+
     height:100%;
+
     background:rgba(0,0,0,.7);
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
-    z-index:100;
 
 }
 
@@ -417,38 +570,21 @@ input {
 
 .popupBox {
 
+
+    background:white;
+
+    color:black;
+
     width:95%;
+
     max-width:600px;
-    max-height:90vh;
-    overflow:auto;
-    background:white;
-    padding:20px;
-    border:4px solid black;
+
+    padding:25px;
+
+    border:5px solid black;
+
     border-radius:20px;
 
-}
-
-
-
-
-
-
-
-
-
-/* PAYMENTS */
-
-
-.paymentButton {
-
-    width:100%;
-    padding:28px;
-    margin:12px 0;
-    font-size:32px;
-    font-weight:bold;
-    background:white;
-    border:4px solid black;
-    border-radius:20px;
 
 }
 
@@ -460,135 +596,34 @@ input {
 
 
 
-/* DASHBOARD */
-
-
-.stats {
-
-    border:4px solid black;
-    border-radius:20px;
-    padding:20px;
-    text-align:center;
-
-}
-
-
-
-.stats p {
-
-    font-size:35px;
-    font-weight:bold;
-
-}
-
-
-
-
-
-
-
-
-
-/* ALERT COLORS */
-
-
-.low {
-
-    border:4px solid black;
-    padding:15px;
-    margin:10px;
-}
-
-
-
-.out {
-
-    background:black;
-    color:white;
-    padding:15px;
-    margin:10px;
-
-}
-
-
-
-
-
-
-
-
-
-/* PRINT */
+/* =====================
+PRINT BARCODE ONLY
+===================== */
 
 
 #printArea {
 
-    background:white;
-    color:black;
+
+    display:none;
+
 
 }
 
-
-
-.printArea {
-
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-
-}
 
 
 
 .printLabel {
 
-    width:250px;
-    height:140px;
+
     border:2px solid black;
-    text-align:center;
+
     padding:10px;
-    page-break-inside:avoid;
 
-}
+    text-align:center;
 
+    width:300px;
 
-
-.printLabel svg {
-
-    max-width:220px;
-
-}
-
-
-
-@media print {
-
-
-body * {
-
-visibility:hidden;
-
-}
-
-
-
-#printArea,
-#printArea * {
-
-visibility:visible;
-
-}
-
-
-
-#printArea {
-
-position:absolute;
-top:0;
-left:0;
-
-}
-
+    margin:10px;
 
 
 }
@@ -601,12 +636,17 @@ left:0;
 
 
 
-@media(max-width:800px){
+/* =====================
+IPAD SUPPORT
+===================== */
 
 
-#productButtons {
+@media(max-width:900px){
 
-grid-template-columns:1fr;
+
+#productGrid {
+
+    grid-template-columns:repeat(2,1fr);
 
 }
 
@@ -614,7 +654,23 @@ grid-template-columns:1fr;
 
 nav button {
 
-font-size:15px;
+    min-width:45%;
+
+}
+
+
+
+}
+
+
+
+
+@media(max-width:600px){
+
+
+#productGrid {
+
+    grid-template-columns:1fr;
 
 }
 
@@ -622,7 +678,61 @@ font-size:15px;
 
 .bigButton {
 
-font-size:24px;
+    font-size:22px;
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================
+PRINT MODE
+===================== */
+
+
+@media print {
+
+
+body * {
+
+    visibility:hidden;
+
+}
+
+
+
+#printArea,
+
+#printArea * {
+
+
+    visibility:visible;
+
+
+}
+
+
+
+#printArea {
+
+
+    display:block;
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
 
 }
 

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Craft POS</title>
+<title>Craft POS V5.1</title>
+
 
 <link rel="stylesheet" href="style.css">
 
@@ -14,7 +17,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 
+
 </head>
+
 
 
 <body>
@@ -22,38 +27,67 @@
 
 <header>
 
-<h1>🧶 Craft POS</h1>
+<h1>
+Craft POS
+</h1>
 
 </header>
 
 
 
 
+
+
 <nav>
 
+
 <button onclick="showPage('inventory')">
+
 📦 Inventory
+
 </button>
+
+
 
 <button onclick="showPage('checkout')">
+
 🛒 Checkout
+
 </button>
+
+
 
 <button onclick="showPage('barcodes')">
+
 🏷️ Barcodes
+
 </button>
+
+
 
 <button onclick="showPage('alerts')">
+
 🚨 Alerts
+
 </button>
+
+
 
 <button onclick="showPage('dashboard')">
-📊 Stats
+
+📊 Dashboard
+
 </button>
 
+
+
 <button onclick="showPage('settings')">
+
 ⚙️ Settings
+
 </button>
+
+
 
 </nav>
 
@@ -62,35 +96,20 @@
 
 
 
-<button class="bigButton craftButton"
-onclick="toggleCraftMode()">
-
-🎪 Craft Show Mode
-
-</button>
 
 
 
+<!-- =====================
+INVENTORY
+===================== -->
 
-
-
-
-
-<!-- INVENTORY -->
 
 <section id="inventory" class="page">
 
 
 <h2>
-📦 Inventory
+Inventory
 </h2>
-
-
-<input id="inventorySearch"
-
-placeholder="Search items"
-
-oninput="renderInventory()">
 
 
 
@@ -98,13 +117,30 @@ oninput="renderInventory()">
 
 onclick="openItemEditor()">
 
-➕ Add New Item
+➕ Add Item
 
 </button>
 
 
 
-<div id="inventoryList"></div>
+
+
+<input
+
+id="inventorySearch"
+
+placeholder="Search items"
+
+oninput="renderInventory()">
+
+
+
+
+
+<div id="inventoryList">
+
+</div>
+
 
 
 </section>
@@ -117,14 +153,16 @@ onclick="openItemEditor()">
 
 
 
-<!-- CHECKOUT -->
+<!-- =====================
+CHECKOUT
+===================== -->
 
 
 <section id="checkout" class="page hidden">
 
 
 <h2>
-🛒 Checkout
+Checkout
 </h2>
 
 
@@ -140,21 +178,14 @@ onclick="startScanner()">
 
 
 
-<div id="scannerBox"
-
-class="hidden">
-
-
-<h3>
-Scan Barcode
-</h3>
+<div id="scannerBox" class="hidden">
 
 
 <div id="scanner"></div>
 
 
 
-<button class="bigButton danger"
+<button class="bigButton"
 
 onclick="stopScanner()">
 
@@ -169,7 +200,11 @@ Close Camera
 
 
 
-<input id="checkoutSearch"
+
+
+<input
+
+id="checkoutSearch"
 
 placeholder="Search products"
 
@@ -177,7 +212,14 @@ oninput="renderCheckout()">
 
 
 
-<div id="productButtons"></div>
+
+
+<div id="productGrid">
+
+</div>
+
+
+
 
 
 
@@ -187,22 +229,22 @@ Cart
 </h2>
 
 
-<div id="cart"></div>
+
+<div id="cart">
+
+</div>
+
+
 
 
 <h2 id="cartTotal">
-Total: $0
+
+Total: $0.00
+
 </h2>
 
 
 
-<button class="bigButton danger"
-
-onclick="clearCart()">
-
-Clear Cart
-
-</button>
 
 
 
@@ -216,6 +258,18 @@ Checkout
 
 
 
+
+<button class="bigButton"
+
+onclick="clearCart()">
+
+Clear Cart
+
+</button>
+
+
+
+
 </section>
 
 
@@ -226,21 +280,24 @@ Checkout
 
 
 
-<!-- BARCODE PAGE -->
+<!-- =====================
+BARCODES ONLY PAGE
+===================== -->
 
 
-<section id="barcodes"
-
-class="page hidden">
+<section id="barcodes" class="page hidden">
 
 
 <h2>
-🏷️ Barcode Manager
+Barcode Center
 </h2>
 
 
 
-<input id="barcodeSearch"
+
+<input
+
+id="barcodeSearch"
 
 placeholder="Search barcodes"
 
@@ -248,13 +305,16 @@ oninput="renderBarcodes()">
 
 
 
+
+
 <button class="bigButton"
 
 onclick="selectAllBarcodes()">
 
-☑ Select All
+Select All
 
 </button>
+
 
 
 
@@ -273,9 +333,10 @@ Clear Selection
 
 onclick="printSelectedBarcodes()">
 
-🖨️ Print Selected
+Print Selected
 
 </button>
+
 
 
 
@@ -283,14 +344,21 @@ onclick="printSelectedBarcodes()">
 
 onclick="printAllBarcodes()">
 
-🖨️ Print All
+Print All
 
 </button>
 
 
 
 
-<div id="barcodeList"></div>
+
+
+
+<div id="barcodeList">
+
+</div>
+
+
 
 
 </section>
@@ -303,20 +371,24 @@ onclick="printAllBarcodes()">
 
 
 
-<!-- ALERTS -->
+<!-- =====================
+ALERTS
+===================== -->
 
 
-<section id="alerts"
-
-class="page hidden">
+<section id="alerts" class="page hidden">
 
 
 <h2>
-🚨 Stock Alerts
+Stock Alerts
 </h2>
 
 
-<div id="alertsList"></div>
+
+<div id="alertsList">
+
+</div>
+
 
 
 </section>
@@ -329,58 +401,109 @@ class="page hidden">
 
 
 
-<!-- DASHBOARD -->
+<!-- =====================
+DASHBOARD
+===================== -->
 
 
-<section id="dashboard"
-
-class="page hidden">
+<section id="dashboard" class="page hidden">
 
 
 <h2>
-📊 Event Stats
+Dashboard
 </h2>
 
 
-<div class="stats">
 
 
-<h3>Total Sales</h3>
+<div class="statsCard">
 
-<p id="sales">$0</p>
+<h3>
+Total Sales
+</h3>
 
+<p id="totalSales">
 
+$0
 
-<h3>Items Sold</h3>
+</p>
 
-<p id="sold">0</p>
-
-
-
-<h3>Items Remaining</h3>
-
-<p id="remaining">0</p>
+</div>
 
 
 
-<h3>Payments</h3>
+
+
+
+<div class="statsCard">
+
+<h3>
+Items Sold
+</h3>
+
+<p id="itemsSold">
+
+0
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div class="statsCard">
+
+<h3>
+Inventory Count
+</h3>
+
+<p id="inventoryCount">
+
+0
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div class="statsCard">
+
+<h3>
+Payments
+</h3>
 
 
 <p>
+
 Cash:
-<span id="cashSales">$0</span>
+<span id="cashTotal">$0</span>
+
 </p>
 
 
 <p>
+
 Card:
-<span id="cardSales">$0</span>
+<span id="cardTotal">$0</span>
+
 </p>
 
 
+
 <p>
+
 Other:
-<span id="otherSales">$0</span>
+<span id="otherTotal">$0</span>
+
 </p>
 
 
@@ -388,11 +511,14 @@ Other:
 
 
 
-<button class="bigButton danger"
 
-onclick="resetStats()">
 
-Reset Event
+
+<button class="bigButton"
+
+onclick="resetEvent()">
+
+Reset Event Sales
 
 </button>
 
@@ -408,17 +534,19 @@ Reset Event
 
 
 
-<!-- SETTINGS -->
+<!-- =====================
+SETTINGS
+===================== -->
 
 
-<section id="settings"
-
-class="page hidden">
+<section id="settings" class="page hidden">
 
 
 <h2>
-⚙️ Settings
+Settings
 </h2>
+
+
 
 
 <button class="bigButton"
@@ -434,7 +562,7 @@ Export Backup
 
 <button class="bigButton"
 
-onclick="document.getElementById('backupFile').click()">
+onclick="document.getElementById('importFile').click()">
 
 Import Backup
 
@@ -442,15 +570,20 @@ Import Backup
 
 
 
-<input id="backupFile"
+
+<input
+
+id="importFile"
 
 type="file"
 
-accept=".json"
-
 style="display:none"
 
+accept=".json"
+
 onchange="importBackup(event)">
+
+
 
 
 
@@ -464,12 +597,136 @@ onchange="importBackup(event)">
 
 
 
-<!-- PAYMENT POPUP -->
+<!-- =====================
+ITEM EDITOR
+===================== -->
 
 
-<div id="paymentPopup"
+<div id="itemPopup" class="popup hidden">
 
-class="popup hidden">
+
+<div class="popupBox">
+
+
+<h2>
+Add Item
+</h2>
+
+
+
+<input
+
+id="itemPicture"
+
+type="file"
+
+accept="image/*"
+
+capture="environment">
+
+
+
+
+
+<img
+
+id="itemPreview"
+
+style="display:none"
+
+class="itemPreview">
+
+
+
+
+
+<input
+
+id="itemName"
+
+placeholder="Item name">
+
+
+
+
+
+<input
+
+id="itemPrice"
+
+type="number"
+
+placeholder="Price">
+
+
+
+
+
+<input
+
+id="itemStock"
+
+type="number"
+
+placeholder="Stock">
+
+
+
+
+
+<input
+
+id="itemLowStock"
+
+type="number"
+
+placeholder="Low stock alert"
+
+value="3">
+
+
+
+
+
+<button class="bigButton"
+
+onclick="saveItem()">
+
+Save
+
+</button>
+
+
+
+
+<button class="bigButton"
+
+onclick="closeItemEditor()">
+
+Cancel
+
+</button>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+PAYMENT
+===================== -->
+
+
+<div id="paymentPopup" class="popup hidden">
 
 
 <div class="popupBox">
@@ -481,11 +738,12 @@ Payment
 
 
 
+
 <button class="paymentButton"
 
 onclick="completePayment('cash')">
 
-💵 Cash
+Cash
 
 </button>
 
@@ -495,9 +753,10 @@ onclick="completePayment('cash')">
 
 onclick="completePayment('card')">
 
-💳 Card
+Card
 
 </button>
+
 
 
 
@@ -505,17 +764,7 @@ onclick="completePayment('card')">
 
 onclick="completePayment('other')">
 
-📱 Other
-
-</button>
-
-
-
-<button class="bigButton danger"
-
-onclick="closePayment()">
-
-Cancel
+Other
 
 </button>
 
@@ -533,116 +782,9 @@ Cancel
 
 
 
-<!-- ITEM EDITOR -->
+<!-- PRINT AREA -->
 
-
-<div id="editorPopup"
-
-class="popup hidden">
-
-
-<div class="popupBox">
-
-
-<h2 id="editorTitle">
-Add Item
-</h2>
-
-
-
-<input id="itemImage"
-
-type="file"
-
-accept="image/*"
-
-capture="environment">
-
-
-
-<img id="previewImage"
-
-class="preview"
-
-style="display:none;">
-
-
-
-
-
-<input id="itemName"
-
-placeholder="Item name">
-
-
-
-
-
-<input id="lowStockLimit"
-
-type="number"
-
-value="3"
-
-placeholder="Low stock alert number">
-
-
-
-
-
-<h3>
-Variants (Optional)
-</h3>
-
-
-
-<p>
-Leave empty for a normal item
-</p>
-
-
-
-<div id="variantEditor"></div>
-
-
-
-<button class="smallButton"
-
-onclick="addVariantEditor()">
-
-➕ Add Variant
-
-</button>
-
-
-
-
-<button class="bigButton"
-
-onclick="saveItem()">
-
-Save Item
-
-</button>
-
-
-
-
-<button class="bigButton danger"
-
-onclick="closeEditor()">
-
-Cancel
-
-</button>
-
-
-
-</div>
-
-</div>
-
-
+<div id="printArea"></div>
 
 
 
