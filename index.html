@@ -1,24 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
-<meta charset="UTF-8">
+<title>POS V9</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>Craft POS V6.1</title>
-
-
 <link rel="stylesheet" href="style.css">
-
-
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-
 
 </head>
 
@@ -28,123 +17,84 @@
 
 <header>
 
-<h1>
-Craft POS
-</h1>
+<h1>POS</h1>
 
 </header>
 
 
 
+<main>
 
 
-<nav>
 
 
-<button onclick="showPage('checkout')">
 
-🛒 Checkout
+<!-- DASHBOARD -->
 
+<section id="dashboard" class="page active">
+
+
+<h2>Dashboard</h2>
+
+
+<div class="cards">
+
+
+<div class="card">
+<h3>Products</h3>
+<p id="productCount">0</p>
+</div>
+
+
+<div class="card">
+<h3>Total Stock</h3>
+<p id="inventoryCount">0</p>
+</div>
+
+
+<div class="card">
+<h3>Low Stock</h3>
+<p id="lowStock">0</p>
+</div>
+
+
+<div class="card">
+<h3>Items Sold</h3>
+<p id="itemsSold">0</p>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<h2>⚡ Quick Actions</h2>
+
+
+<div class="quick-buttons">
+
+
+<button onclick="showPage('addProduct')">
+➕ Add Product
 </button>
-
 
 
 <button onclick="showPage('inventory')">
-
 📦 Inventory
-
 </button>
 
 
-
-<button onclick="showPage('barcodes')">
-
-🏷️ Barcodes
-
+<button onclick="showPage('checkout')">
+🛒 New Sale
 </button>
 
 
-
-<button onclick="showPage('dashboard')">
-
-📊 Dashboard
-
-</button>
-
-
-
-<button onclick="showPage('history')">
-
-📜 Sales History
-
-</button>
-
-
-
-<button onclick="showPage('craftShow')">
-
-🎪 Craft Show
-
-</button>
-
-
-
-<button onclick="showPage('settings')">
-
-⚙️ Settings
-
-</button>
-
-
-</nav>
-
-
-
-
-
-
-
-
-
-<!-- ======================
-CHECKOUT PAGE
-====================== -->
-
-
-<section id="checkout" class="page">
-
-
-
-<h2>
-Checkout
-</h2>
-
-
-
-
-<button class="bigButton"
-onclick="startScanner()">
-
-📷 Scan Barcode
-
-</button>
-
-
-
-
-
-<div id="scannerBox" class="hidden">
-
-
-<div id="scanner"></div>
-
-
-
-<button class="bigButton"
-onclick="stopScanner()">
-
-Close Scanner
-
+<button onclick="showPage('categories')">
+⚙️ Categories
 </button>
 
 
@@ -155,64 +105,233 @@ Close Scanner
 
 
 
+
+<div class="dashboard-box">
+
+<h2>⚠️ Low Stock</h2>
+
+<div id="lowStockList"></div>
+
+</div>
+
+
+
+
+
+
+
+<div class="dashboard-box">
+
+<h2>⭐ Best Sellers</h2>
+
+<div id="bestSellers"></div>
+
+</div>
+
+
+
+
+
+
+
+<div class="dashboard-box">
+
+<h2>📦 Category Stock</h2>
+
+<div id="categoryStock"></div>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="dashboard-box">
+
+
+<h2>📝 To-Do List</h2>
+
+
+<input id="todoInput" placeholder="New task">
+
+
+<button onclick="addTodo()">
+Add
+</button>
+
+
+<div id="todoList"></div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- CHECKOUT -->
+
+<section id="checkout" class="page">
+
+
+<h2>Checkout</h2>
+
+
+
+<div id="categoryButtons" class="categories"></div>
+
+
+
+
+
 <input
-
-id="checkoutSearch"
-
-placeholder="Search products"
-
-oninput="renderCheckout()"
-
+id="search"
+placeholder="Search Products..."
+oninput="searchProducts()"
 >
 
 
 
 
-<div id="productGrid"></div>
+<div class="checkout-layout">
+
+
+<div id="products" class="product-grid"></div>
 
 
 
 
+<div class="cart">
 
+
+<h2>Cart</h2>
+
+
+<div id="cartItems"></div>
 
 
 
 <h2>
-Cart
+$
+<span id="total">0</span>
 </h2>
 
 
 
-<div id="cart"></div>
+<button onclick="clearCart">
+Clear
+</button>
 
 
 
+<button class="black" onclick="pay('Cash')">
 
-<h2 id="cartTotal">
-
-Total: $0.00
-
-</h2>
-
-
-
-
-
-<button class="bigButton"
-onclick="openPayment()">
-
-Pay
+💵 Cash
 
 </button>
 
 
 
+<button class="black" onclick="pay('Card')">
+
+💳 Card
+
+</button>
 
 
-<button class="bigButton"
-onclick="clearCart()">
 
-Clear Cart
+</div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ADD PRODUCT -->
+
+
+<section id="addProduct" class="page">
+
+
+<h2>Add Product</h2>
+
+
+
+
+<input
+id="productName"
+placeholder="Product Name"
+>
+
+
+
+
+<input
+id="productPrice"
+placeholder="Price"
+type="number"
+>
+
+
+
+
+<input
+id="productStock"
+placeholder="Stock"
+type="number"
+>
+
+
+
+
+<select id="productCategory">
+
+</select>
+
+
+
+
+
+
+<label>
+Picture
+</label>
+
+
+<input
+id="productImage"
+type="file"
+accept="image/*"
+>
+
+
+
+
+
+<button onclick="saveProduct()">
+
+Save Product
 
 </button>
 
@@ -228,24 +347,83 @@ Clear Cart
 
 
 
-<!-- ======================
-INVENTORY PAGE
-====================== -->
+<!-- EDIT PRODUCT -->
 
 
-<section id="inventory" class="page hidden">
+<section id="editProduct" class="page">
 
 
-<h2>
-Inventory
-</h2>
+<h2>Edit Product</h2>
 
 
 
-<button class="bigButton"
-onclick="openProductEditor()">
+<input id="editName">
 
-➕ Add Product
+
+<input id="editPrice" type="number">
+
+
+<input id="editStock" type="number">
+
+
+
+
+<select id="editCategory">
+
+</select>
+
+
+
+
+<input
+id="editImage"
+type="file"
+accept="image/*"
+>
+
+
+
+
+<button onclick="updateProduct()">
+
+Save Changes
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- CATEGORIES -->
+
+
+<section id="categories" class="page">
+
+
+<h2>⚙️ Categories</h2>
+
+
+
+
+<input
+id="categoryName"
+placeholder="New Category Name"
+>
+
+
+
+
+<button onclick="addCategory()">
+
+➕ Add Category
 
 </button>
 
@@ -253,17 +431,27 @@ onclick="openProductEditor()">
 
 
 
-<input
-
-id="inventorySearch"
-
-placeholder="Search inventory"
-
-oninput="renderInventory()"
-
->
+<div id="categoryList"></div>
 
 
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- INVENTORY -->
+
+
+<section id="inventory" class="page">
+
+
+<h2>Inventory</h2>
 
 
 <div id="inventoryList"></div>
@@ -279,82 +467,24 @@ oninput="renderInventory()"
 
 
 
-<!-- ======================
-BARCODE PAGE
-====================== -->
+<!-- SALES -->
 
 
-<section id="barcodes" class="page hidden">
+<section id="sales" class="page">
 
 
-<h2>
-Barcode Center
-</h2>
+<h2>Sales History</h2>
 
 
+<div id="salesList"></div>
 
 
 
-<input
+<button onclick="clearSales()">
 
-id="barcodeSearch"
-
-placeholder="Search barcodes"
-
-oninput="renderBarcodes()"
-
->
-
-
-
-
-
-<button class="bigButton"
-onclick="selectAllBarcodes()">
-
-Select All
+Clear Sales
 
 </button>
-
-
-
-
-
-<button class="bigButton"
-onclick="clearBarcodeSelection()">
-
-Clear Selection
-
-</button>
-
-
-
-
-
-<button class="bigButton"
-onclick="printSelectedBarcodes()">
-
-Print Selected
-
-</button>
-
-
-
-
-
-<button class="bigButton"
-onclick="printAllBarcodes()">
-
-Print All
-
-</button>
-
-
-
-
-
-<div id="barcodeList"></div>
-
 
 
 </section>
@@ -367,602 +497,56 @@ Print All
 
 
 
-<!-- ======================
-DASHBOARD PAGE
-====================== -->
+</main>
 
 
-<section id="dashboard" class="page hidden">
 
 
-<h2>
-Dashboard
-</h2>
 
 
 
 
 
-<div class="statsCard">
+<nav>
 
 
-<h3>
-Items Sold
-</h3>
-
-
-<p id="itemsSold">
-
-0
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="statsCard">
-
-
-<h3>
-Inventory Count
-</h3>
-
-
-<p id="inventoryCount">
-
-0
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="statsCard">
-
-
-<h3>
-Cash Sales
-</h3>
-
-
-<p id="cashTotal">
-
-$0
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="statsCard">
-
-
-<h3>
-Card Sales
-</h3>
-
-
-<p id="cardTotal">
-
-$0
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="statsCard">
-
-
-<h3>
-Other Payments
-</h3>
-
-
-<p id="otherTotal">
-
-$0
-
-</p>
-
-
-</div>
-
-
-
-
-
-<button class="bigButton"
-onclick="clearDashboard()">
-
-Clear Dashboard
-
+<button onclick="showPage('dashboard')">
+⌂
 </button>
 
 
 
-</section>
-
-
-
-<!-- ======================
-SALES HISTORY PAGE
-====================== -->
-
-
-<section id="history" class="page hidden">
-
-
-<h2>
-Sales History
-</h2>
-
-
-
-
-<button class="bigButton"
-onclick="clearSalesHistory()">
-
-Clear Sales History
-
+<button onclick="showPage('checkout')">
+🛒
 </button>
 
 
 
-
-
-<div id="historyList"></div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- ======================
-CRAFT SHOW PAGE
-====================== -->
-
-
-<section id="craftShow" class="page hidden">
-
-
-<h2>
-Craft Show Mode
-</h2>
-
-
-
-
-
-<h3 id="showName">
-
-No Active Show
-
-</h3>
-
-
-
-
-<button class="bigButton"
-onclick="startCraftShow()">
-
-Start New Show
-
+<button onclick="showPage('addProduct')">
+➕
 </button>
 
 
 
-
-
-<button class="bigButton"
-onclick="endCraftShow()">
-
-End Show
-
+<button onclick="showPage('inventory')">
+📦
 </button>
 
 
 
-
-
-<div id="showSummary"></div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- ======================
-PRODUCT EDITOR
-====================== -->
-
-
-<div id="productPopup" class="popup hidden">
-
-
-<div class="popupBox">
-
-
-<h2>
-Add Product
-</h2>
-
-
-
-
-
-<input
-
-id="productImage"
-
-type="file"
-
-accept="image/*"
-
->
-
-
-
-
-
-<img
-
-id="productPreview"
-
-class="itemPreview"
-
-style="display:none"
-
->
-
-
-
-
-
-<input
-
-id="productName"
-
-placeholder="Product Name"
-
->
-
-
-
-
-
-<input
-
-id="productPrice"
-
-type="number"
-
-placeholder="Price"
-
->
-
-
-
-
-
-<input
-
-id="productStock"
-
-type="number"
-
-placeholder="Stock"
-
->
-
-
-
-
-
-<input
-
-id="productCategory"
-
-placeholder="Category"
-
->
-
-
-
-
-
-
-
-<h3>
-Product Variations (Optional)
-</h3>
-
-
-
-
-
-<input
-
-id="variationName"
-
-placeholder="Variation Name (Color, Size)"
-
->
-
-
-
-
-
-<input
-
-id="variationOptions"
-
-placeholder="Options separated by commas"
-
->
-
-
-
-
-
-<button class="bigButton"
-
-onclick="addVariation()">
-
-Add Variation
-
+<button onclick="showPage('categories')">
+⚙️
 </button>
 
 
 
-
-
-<div id="variationList"></div>
-
-
-
-
-
-
-<button class="bigButton"
-
-onclick="saveProduct()">
-
-Save Product
-
+<button onclick="showPage('sales')">
+🧾
 </button>
 
 
 
-
-
-<button class="bigButton"
-
-onclick="closeProductEditor()">
-
-Cancel
-
-</button>
-
-
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-
-<!-- ======================
-PAYMENT POPUP
-====================== -->
-
-
-<div id="paymentPopup" class="popup hidden">
-
-
-<div class="popupBox">
-
-
-
-<h2>
-Payment Type
-</h2>
-
-
-
-
-
-
-<button class="paymentButton"
-
-onclick="completePayment('cash')">
-
-💵 Cash
-
-</button>
-
-
-
-
-
-
-<button class="paymentButton"
-
-onclick="completePayment('card')">
-
-💳 Card
-
-</button>
-
-
-
-
-
-
-<button class="paymentButton"
-
-onclick="completePayment('other')">
-
-Other
-
-</button>
-
-
-
-
-
-
-<button class="bigButton"
-
-onclick="closePayment()">
-
-Cancel
-
-</button>
-
-
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-
-<!-- ======================
-SETTINGS
-====================== -->
-
-
-<section id="settings" class="page hidden">
-
-
-<h2>
-Settings
-</h2>
-
-
-
-
-
-<button class="bigButton"
-
-onclick="exportBackup()">
-
-Export Backup
-
-</button>
-
-
-
-
-
-
-<button class="bigButton"
-
-onclick="document.getElementById('importFile').click()">
-
-Import Backup
-
-</button>
-
-
-
-
-
-<input
-
-id="importFile"
-
-type="file"
-
-accept=".json"
-
-style="display:none"
-
-onchange="importBackup(event)"
-
->
-
-
-
-
-
-<button class="bigButton"
-
-onclick="resetEvent()">
-
-Reset Event Sales
-
-</button>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- ======================
-PRINT AREA
-DO NOT REMOVE
-====================== -->
-
-
-<div id="printArea"></div>
-
-
+</nav>
 
 
 
@@ -974,6 +558,5 @@ DO NOT REMOVE
 
 
 </body>
-
 
 </html>
