@@ -1,7 +1,7 @@
 // ==========================================
 // CRAFT POS PRO
-// UPDATE 4.1
-// IPAD BARCODE SCANNER FIX
+// UPDATE 4.2
+// MULTI ITEM + OPTIONAL VARIANTS FIX
 // APP.JS PART 1
 // ==========================================
 
@@ -13,7 +13,6 @@
 
 let items =
 JSON.parse(localStorage.getItem("items")) || [];
-
 
 
 let stats =
@@ -28,7 +27,6 @@ JSON.parse(localStorage.getItem("stats")) || {
 };
 
 
-
 let cart=[];
 
 
@@ -38,11 +36,10 @@ let editingID=null;
 let imageData="";
 
 
-let scannerRunning=false;
-
-
 let selectedBarcodes=[];
 
+
+let scannerRunning=false;
 
 
 let craftShowMode =
@@ -56,10 +53,8 @@ localStorage.getItem("craftShowMode")
 
 
 
-
-
 // ===============================
-// SAVE DATA
+// SAVE
 // ===============================
 
 
@@ -67,24 +62,32 @@ function saveData(){
 
 
 localStorage.setItem(
+
 "items",
+
 JSON.stringify(items)
+
 );
 
 
 
 localStorage.setItem(
+
 "stats",
+
 JSON.stringify(stats)
+
 );
 
 
 
 localStorage.setItem(
-"craftShowMode",
-JSON.stringify(craftShowMode)
-);
 
+"craftShowMode",
+
+JSON.stringify(craftShowMode)
+
+);
 
 
 }
@@ -110,21 +113,22 @@ document.querySelectorAll(".page")
 
 .forEach(p=>{
 
+
 p.classList.add("hidden");
+
 
 });
 
 
 
-
-let target =
+let selected =
 document.getElementById(page);
 
 
 
-if(target)
+if(selected)
 
-target.classList.remove("hidden");
+selected.classList.remove("hidden");
 
 
 
@@ -171,252 +175,7 @@ renderStats();
 
 
 // ===============================
-// CRAFT SHOW MODE
-// ===============================
-
-
-function toggleCraftMode(){
-
-
-
-craftShowMode =
-!craftShowMode;
-
-
-
-saveData();
-
-
-
-if(craftShowMode){
-
-
-
-document.body.classList.add(
-"craftMode"
-);
-
-
-
-alert(
-"🎪 Craft Show Mode ON"
-);
-
-
-
-showPage("checkout");
-
-
-
-}
-
-else{
-
-
-
-document.body.classList.remove(
-"craftMode"
-);
-
-
-
-alert(
-"Craft Show Mode OFF"
-);
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ===============================
-// BACKUP EXPORT
-// ===============================
-
-
-function exportBackup(){
-
-
-
-let backup={
-
-
-
-items:items,
-
-
-stats:stats,
-
-
-craftShowMode:craftShowMode,
-
-
-date:new Date().toISOString()
-
-
-
-};
-
-
-
-let blob =
-new Blob(
-
-[
-
-JSON.stringify(
-backup,
-null,
-2
-)
-
-],
-
-{
-
-type:"application/json"
-
-}
-
-);
-
-
-
-let link =
-document.createElement("a");
-
-
-
-link.href =
-URL.createObjectURL(blob);
-
-
-
-link.download =
-"CraftPOS_Backup.json";
-
-
-
-link.click();
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ===============================
-// BACKUP IMPORT
-// ===============================
-
-
-function importBackup(event){
-
-
-
-let file =
-event.target.files[0];
-
-
-
-if(!file)
-
-return;
-
-
-
-
-let reader =
-new FileReader();
-
-
-
-reader.onload=function(){
-
-
-
-let data =
-JSON.parse(
-reader.result
-);
-
-
-
-items =
-data.items || [];
-
-
-
-stats =
-data.stats || {
-
-sales:0,
-sold:0,
-cash:0,
-card:0,
-other:0
-
-};
-
-
-
-craftShowMode =
-data.craftShowMode || false;
-
-
-
-
-saveData();
-
-
-
-alert(
-"Backup Restored"
-);
-
-
-
-renderInventory();
-
-
-
-};
-
-
-
-reader.readAsText(file);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ===============================
-// CREATE BARCODE
+// BARCODE GENERATOR
 // ===============================
 
 
@@ -452,9 +211,7 @@ Math.random()*9000000000
 
 
 document.addEventListener(
-
 "change",
-
 function(e){
 
 
@@ -471,7 +228,6 @@ e.target.files[0];
 if(!file)
 
 return;
-
 
 
 
@@ -537,7 +293,6 @@ function openItemEditor(id=null){
 editingID=id;
 
 
-
 imageData="";
 
 
@@ -560,6 +315,13 @@ document.getElementById(
 "previewImage"
 )
 .style.display="none";
+
+
+
+document.getElementById(
+"itemName"
+)
+.value="";
 
 
 
@@ -600,17 +362,15 @@ document.getElementById(
 document.getElementById(
 "lowStockLimit"
 )
-.value=item.lowStockLimit ?? 3;
+.value=item.lowStockLimit || 3;
 
 
 
-imageData =
-item.image || "";
+imageData=item.image || "";
 
 
 
 if(imageData){
-
 
 
 let img =
@@ -637,12 +397,13 @@ item.variants.forEach(v=>{
 addVariantEditor(v);
 
 
-
 });
 
 
 
 }
+
+
 
 else{
 
@@ -651,13 +412,6 @@ document.getElementById(
 "editorTitle"
 )
 .innerHTML="Add Item";
-
-
-
-document.getElementById(
-"itemName"
-)
-.value="";
 
 
 
@@ -678,7 +432,6 @@ document.getElementById(
 function closeEditor(){
 
 
-
 document.getElementById(
 "editorPopup"
 )
@@ -696,19 +449,11 @@ document.getElementById(
 
 
 // ===============================
-// VARIANT EDITOR
+// ADD VARIANT BOX
 // ===============================
 
 
 function addVariantEditor(v={}){
-
-
-
-if(!v.barcode)
-
-v.barcode=createBarcode();
-
-
 
 
 
@@ -728,7 +473,7 @@ box.innerHTML=`
 
 <input class="vName"
 
-placeholder="Variant name"
+placeholder="Variant name (optional)"
 
 value="${v.name || ""}">
 
@@ -740,7 +485,7 @@ type="number"
 
 placeholder="Price"
 
-value="${v.price || ""}">
+value="${v.price || 0}">
 
 
 
@@ -758,7 +503,7 @@ value="${v.stock || 0}">
 
 readonly
 
-value="${v.barcode}">
+value="${v.barcode || createBarcode()}">
 
 
 
@@ -784,6 +529,15 @@ document.getElementById(
 
 
 }
+
+
+
+
+
+
+
+
+
 // ===============================
 // SAVE ITEM
 // ===============================
@@ -792,25 +546,27 @@ document.getElementById(
 function saveItem(){
 
 
+
 let name =
-document.getElementById("itemName").value;
+document.getElementById(
+"itemName"
+)
+.value.trim();
 
 
 
 if(!name){
 
-alert("Enter item name");
+
+alert(
+"Enter item name"
+);
+
 
 return;
 
+
 }
-
-
-
-let limit =
-Number(
-document.getElementById("lowStockLimit").value
-);
 
 
 
@@ -818,28 +574,40 @@ let variants=[];
 
 
 
-document.querySelectorAll(".variantEditor")
+document.querySelectorAll(
+".variantEditor"
+)
 
 .forEach(v=>{
+
 
 
 variants.push({
 
 
-name:v.querySelector(".vName").value,
+
+name:
+v.querySelector(".vName").value || "Default",
 
 
-price:Number(
+
+price:
+Number(
 v.querySelector(".vPrice").value
 ),
 
 
-stock:Number(
+
+stock:
+Number(
 v.querySelector(".vStock").value
 ),
 
 
-barcode:v.querySelector(".vBarcode").value,
+
+barcode:
+v.querySelector(".vBarcode").value,
+
 
 
 sold:0
@@ -849,19 +617,50 @@ sold:0
 });
 
 
+
 });
 
 
 
 
 
+
+
+
+// NO VARIANT FIX
+
+
 if(variants.length===0){
 
-alert("Add a variant");
 
-return;
+
+variants.push({
+
+
+
+name:"Default",
+
+
+price:0,
+
+
+stock:0,
+
+
+barcode:createBarcode(),
+
+
+sold:0
+
+
+
+});
+
+
 
 }
+
+
 
 
 
@@ -880,9 +679,19 @@ i=>i.id===editingID
 
 item.name=name;
 
+
 item.image=imageData;
 
-item.lowStockLimit=limit;
+
+item.lowStockLimit=
+
+Number(
+document.getElementById(
+"lowStockLimit"
+).value
+);
+
+
 
 item.variants=variants;
 
@@ -897,6 +706,7 @@ else{
 items.push({
 
 
+
 id:Date.now(),
 
 
@@ -906,7 +716,14 @@ name:name,
 image:imageData,
 
 
-lowStockLimit:limit,
+lowStockLimit:
+
+Number(
+document.getElementById(
+"lowStockLimit"
+).value
+),
+
 
 
 variants:variants
@@ -932,22 +749,12 @@ renderInventory();
 
 
 }
-
-
-
-
-
-
-
-
-
 // ===============================
-// INVENTORY
+// INVENTORY DISPLAY
 // ===============================
 
 
 function renderInventory(){
-
 
 
 let box =
@@ -969,11 +776,10 @@ box.innerHTML="";
 
 
 let search =
-document.getElementById(
+(document.getElementById(
 "inventorySearch"
-)
-.value.toLowerCase();
-
+)?.value || "")
+.toLowerCase();
 
 
 
@@ -991,13 +797,15 @@ item.name
 .forEach(item=>{
 
 
+
 let total=0;
+
 
 
 item.variants.forEach(v=>{
 
 
-total+=v.stock;
+total += v.stock;
 
 
 });
@@ -1006,11 +814,10 @@ total+=v.stock;
 
 
 
-box.innerHTML +=`
+let html=`
 
 
 <div class="card">
-
 
 
 ${item.image ?
@@ -1018,6 +825,7 @@ ${item.image ?
 `<img src="${item.image}">`
 
 :""}
+
 
 
 
@@ -1033,8 +841,17 @@ Total Stock: ${total}
 
 
 
-${item.variants.map(
-(v,i)=>`
+`;
+
+
+
+
+
+item.variants.forEach((v,index)=>{
+
+
+
+html +=`
 
 
 <div class="variantEditor">
@@ -1043,6 +860,7 @@ ${item.variants.map(
 <h3>
 ${v.name}
 </h3>
+
 
 
 Price:
@@ -1058,16 +876,15 @@ ${v.stock}
 
 
 
-
 <br>
 
 
 
 <button class="smallButton"
 
-onclick="quickStock(${item.id},${i},1)">
+onclick="quickStock(${item.id},${index},1)">
 
-➕ Add
+➕ Add Stock
 
 </button>
 
@@ -1075,9 +892,9 @@ onclick="quickStock(${item.id},${i},1)">
 
 <button class="smallButton"
 
-onclick="quickStock(${item.id},${i},-1)">
+onclick="quickStock(${item.id},${index},-1)">
 
-➖ Remove
+➖ Remove Stock
 
 </button>
 
@@ -1086,9 +903,18 @@ onclick="quickStock(${item.id},${i},-1)">
 </div>
 
 
-`
 
-).join("")}
+`;
+
+
+
+});
+
+
+
+
+
+html +=`
 
 
 
@@ -1096,9 +922,10 @@ onclick="quickStock(${item.id},${i},-1)">
 
 onclick="openItemEditor(${item.id})">
 
-✏️ Edit
+✏️ Edit Item
 
 </button>
+
 
 
 
@@ -1120,6 +947,11 @@ onclick="deleteItem(${item.id})">
 
 
 
+
+box.innerHTML += html;
+
+
+
 });
 
 
@@ -1135,23 +967,29 @@ onclick="deleteItem(${item.id})">
 
 
 // ===============================
-// STOCK BUTTONS
+// STOCK CONTROL
 // ===============================
 
 
-function quickStock(id,variantID,amount){
+function quickStock(id,index,amount){
 
 
 
 let item =
 items.find(
-i=>i.id===id
+x=>x.id===id
 );
 
 
 
+if(!item)
+
+return;
+
+
+
 let variant =
-item.variants[variantID];
+item.variants[index];
 
 
 
@@ -1165,11 +1003,11 @@ variant.stock=0;
 
 
 
-
 saveData();
 
 
 renderInventory();
+
 
 
 }
@@ -1191,12 +1029,15 @@ function deleteItem(id){
 
 
 
-if(confirm("Delete item?")){
+if(confirm(
+"Delete this item?"
+)){
+
 
 
 items =
 items.filter(
-i=>i.id!==id
+x=>x.id!==id
 );
 
 
@@ -1223,7 +1064,7 @@ renderInventory();
 
 
 // ===============================
-// BARCODE MANAGER
+// BARCODE PAGE
 // ===============================
 
 
@@ -1248,15 +1089,12 @@ box.innerHTML="";
 
 
 
-selectedBarcodes=[];
-
-
 
 let search =
-document.getElementById(
+(document.getElementById(
 "barcodeSearch"
-)
-.value.toLowerCase();
+)?.value || "")
+.toLowerCase();
 
 
 
@@ -1266,26 +1104,34 @@ items.forEach(item=>{
 
 
 
-item.variants.forEach((v,i)=>{
+item.variants.forEach((v,index)=>{
 
 
 
 let key =
-item.id+"-"+i;
+item.id+"-"+index;
+
 
 
 
 let text =
-item.name+" "+v.name;
+(
+item.name+
+" "+
+v.name
+)
+.toLowerCase();
+
+
 
 
 
 if(
-!text.toLowerCase()
-.includes(search)
+!text.includes(search)
 )
 
 return;
+
 
 
 
@@ -1297,6 +1143,10 @@ box.innerHTML +=`
 <div class="barcodeCard">
 
 
+
+<label>
+
+
 <input
 
 class="barcodeCheck"
@@ -1305,26 +1155,38 @@ type="checkbox"
 
 data-id="${key}"
 
-onchange="updateBarcodeSelection('${key}')"
+onchange="updateBarcodeSelection('${key}')">
 
->
+
+☑ Select
+
+
+
+</label>
+
+
+
+
+
+<h2>
+${item.name}
+</h2>
+
 
 
 
 <h3>
-${item.name}
+${v.name}
 </h3>
 
 
 
 <p>
-${v.name}
-</p>
-
-
-<p>
+Price:
 $${v.price}
 </p>
+
+
 
 
 
@@ -1335,6 +1197,8 @@ id="barcodeImage-${key}"
 class="barcodeImage">
 
 </svg>
+
+
 
 
 
@@ -1349,12 +1213,16 @@ ${v.barcode}
 </div>
 
 
+
 `;
 
 
 
 
+
+
 setTimeout(()=>{
+
 
 
 let svg =
@@ -1367,6 +1235,7 @@ document.getElementById(
 if(svg){
 
 
+
 JsBarcode(
 
 svg,
@@ -1375,13 +1244,22 @@ v.barcode,
 
 {
 
+
 format:"CODE128",
+
+
+width:2,
+
 
 height:70,
 
-displayValue:false
+
+displayValue:true
+
 
 }
+
+
 
 );
 
@@ -1390,7 +1268,8 @@ displayValue:false
 }
 
 
-},20);
+
+},100);
 
 
 
@@ -1412,11 +1291,16 @@ displayValue:false
 
 
 
+// ===============================
+// BARCODE SELECT
+// ===============================
+
+
 function updateBarcodeSelection(id){
 
 
 
-let box =
+let checkbox =
 document.querySelector(
 
 `input[data-id="${id}"]`
@@ -1425,11 +1309,21 @@ document.querySelector(
 
 
 
-if(box.checked){
+if(!checkbox)
+
+return;
 
 
 
-if(!selectedBarcodes.includes(id))
+
+
+if(checkbox.checked){
+
+
+
+if(
+!selectedBarcodes.includes(id)
+)
 
 selectedBarcodes.push(id);
 
@@ -1466,8 +1360,14 @@ function selectAllBarcodes(){
 
 
 
+selectedBarcodes=[];
+
+
+
 document
-.querySelectorAll(".barcodeCheck")
+.querySelectorAll(
+".barcodeCheck"
+)
 
 .forEach(box=>{
 
@@ -1475,9 +1375,11 @@ document
 box.checked=true;
 
 
-updateBarcodeSelection(
+
+selectedBarcodes.push(
 box.dataset.id
 );
+
 
 
 });
@@ -1502,7 +1404,9 @@ selectedBarcodes=[];
 
 
 document
-.querySelectorAll(".barcodeCheck")
+.querySelectorAll(
+".barcodeCheck"
+)
 
 .forEach(box=>{
 
@@ -1515,22 +1419,12 @@ box.checked=false;
 
 
 }
-
-
-
-
-
-
-
-
-
 // ===============================
-// IPAD BARCODE SCANNER
+// BARCODE SCANNER
 // ===============================
 
 
 function startScanner(){
-
 
 
 document.getElementById(
@@ -1579,7 +1473,6 @@ ideal:720
 }
 
 
-
 }
 
 
@@ -1592,7 +1485,6 @@ decoder:{
 
 readers:[
 
-
 "code_128_reader",
 
 "ean_reader",
@@ -1600,7 +1492,6 @@ readers:[
 "ean_8_reader",
 
 "upc_reader"
-
 
 ]
 
@@ -1616,12 +1507,12 @@ readers:[
 if(err){
 
 
-console.log(err);
-
-
 alert(
-"Camera could not start"
+"Camera error"
 );
+
+
+console.log(err);
 
 
 return;
@@ -1636,7 +1527,6 @@ Quagga.start();
 
 
 });
-
 
 
 
@@ -1660,7 +1550,7 @@ result.codeResult.code;
 
 
 
-navigator.vibrate?.(100);
+navigator.vibrate?.(150);
 
 
 
@@ -1711,9 +1601,13 @@ document.getElementById(
 
 
 }
-// ===============================
-// FIND BARCODE
-// ===============================
+
+
+
+
+
+
+
 
 
 function findBarcode(code){
@@ -1784,7 +1678,7 @@ alert(
 
 
 // ===============================
-// PRINT BARCODE LABELS
+// PRINT BARCODES
 // ===============================
 
 
@@ -1800,14 +1694,14 @@ selectedBarcodes.forEach(id=>{
 
 
 
-let p =
+let parts =
 id.split("-");
 
 
 
 let item =
 items.find(
-x=>x.id==p[0]
+x=>x.id==parts[0]
 );
 
 
@@ -1817,7 +1711,7 @@ if(item){
 
 
 let v =
-item.variants[p[1]];
+item.variants[parts[1]];
 
 
 
@@ -1846,11 +1740,14 @@ barcode:v.barcode
 
 if(list.length===0){
 
+
 alert(
 "Select barcodes first"
 );
 
+
 return;
+
 
 }
 
@@ -1926,7 +1823,6 @@ printBarcodeLabels(list);
 
 
 
-
 function printBarcodeLabels(list){
 
 
@@ -1940,21 +1836,24 @@ area.id="printArea";
 
 
 
+area.className="printArea";
+
+
+
 list.forEach(b=>{
 
 
 
-let div =
+let label =
 document.createElement("div");
 
 
 
-div.className="printLabel";
+label.className="printLabel";
 
 
 
-div.innerHTML=`
-
+label.innerHTML=`
 
 <b>
 ${b.name}
@@ -1972,31 +1871,35 @@ ${b.variant}
 
 $${b.price}
 
-
-
 `;
 
 
 
-area.appendChild(div);
+area.appendChild(label);
 
 
 
 JsBarcode(
 
-div.querySelector("svg"),
+label.querySelector("svg"),
 
 b.barcode,
 
 {
 
+
 format:"CODE128",
 
-height:45,
+width:2,
+
+height:60,
 
 displayValue:true
 
+
 }
+
+
 
 );
 
@@ -2006,15 +1909,34 @@ displayValue:true
 
 
 
+
+
 document.body.appendChild(area);
 
+
+
+
+// iPad Safari needs time
+
+setTimeout(()=>{
 
 
 window.print();
 
 
 
+setTimeout(()=>{
+
+
 area.remove();
+
+
+
+},1000);
+
+
+
+},700);
 
 
 
@@ -2102,7 +2024,6 @@ renderCart();
 
 
 
-
 function openVariants(id){
 
 
@@ -2125,14 +2046,12 @@ popup.className="popup";
 
 popup.innerHTML=`
 
-
 <div class="popupBox">
 
 
 <h2>
 ${item.name}
 </h2>
-
 
 
 ${item.variants.map(
@@ -2165,7 +2084,6 @@ ${v.stock}
 
 
 
-
 <button class="bigButton danger"
 
 onclick="this.closest('.popup').remove()">
@@ -2177,14 +2095,11 @@ Close
 
 </div>
 
-
 `;
 
 
 
-document.body.appendChild(
-popup
-);
+document.body.appendChild(popup);
 
 
 
@@ -2198,12 +2113,7 @@ popup
 
 
 
-// ===============================
-// CART
-// ===============================
-
-
-function addToCart(id,variantID){
+function addToCart(id,index){
 
 
 
@@ -2215,12 +2125,11 @@ x=>x.id===id
 
 
 let v =
-item.variants[variantID];
+item.variants[index];
 
 
 
 if(v.stock<=0){
-
 
 
 alert(
@@ -2228,8 +2137,8 @@ alert(
 );
 
 
-
 return;
+
 
 }
 
@@ -2239,7 +2148,7 @@ let found =
 cart.find(c=>
 
 c.id===id &&
-c.variant===variantID
+c.variant===index
 
 );
 
@@ -2259,10 +2168,11 @@ else{
 cart.push({
 
 
+
 id:id,
 
 
-variant:variantID,
+variant:index,
 
 
 name:item.name,
@@ -2340,13 +2250,10 @@ total+=cost;
 
 box.innerHTML+=`
 
-
 <div class="cartItem">
 
 
-<b>
-${c.name}
-</b>
+<b>${c.name}</b>
 
 
 <br>
@@ -2378,7 +2285,6 @@ Remove
 </div>
 
 
-
 `;
 
 
@@ -2406,33 +2312,27 @@ total.toFixed(2);
 
 
 
-
 function removeCart(i){
-
 
 
 cart.splice(i,1);
 
 
-
 renderCart();
-
 
 
 }
 
 
 
-function clearCart(){
 
+function clearCart(){
 
 
 cart=[];
 
 
-
 renderCart();
-
 
 
 }
@@ -2451,6 +2351,7 @@ renderCart();
 
 
 function openPayment(){
+
 
 
 if(cart.length===0){
@@ -2480,7 +2381,6 @@ document.getElementById(
 
 
 
-
 function closePayment(){
 
 
@@ -2493,6 +2393,7 @@ document.getElementById(
 
 
 }
+
 
 
 
@@ -2525,7 +2426,7 @@ item.variants[c.variant];
 
 
 
-v.stock -= c.qty;
+v.stock-=c.qty;
 
 
 
@@ -2535,12 +2436,12 @@ v.stock=0;
 
 
 
-stats.sold += c.qty;
+stats.sold+=c.qty;
 
 
 
 total +=
-v.price*c.qty;
+c.qty*v.price;
 
 
 
@@ -2548,27 +2449,20 @@ v.price*c.qty;
 
 
 
-
-
-stats.sales += total;
+stats.sales+=total;
 
 
 
 if(method==="cash")
-
-stats.cash += total;
-
+stats.cash+=total;
 
 
 if(method==="card")
-
-stats.card += total;
-
+stats.card+=total;
 
 
 if(method==="other")
-
-stats.other += total;
+stats.other+=total;
 
 
 
@@ -2585,7 +2479,9 @@ closePayment();
 
 renderInventory();
 
+
 renderCheckout();
+
 
 renderStats();
 
@@ -2646,15 +2542,13 @@ if(v.stock===0){
 
 box.innerHTML+=`
 
-<div class="card out">
+<div class="out">
 
 🔴 OUT OF STOCK
 
 <br>
 
 ${item.name}
-
-<br>
 
 ${v.name}
 
@@ -2672,7 +2566,7 @@ else if(v.stock<=limit){
 
 box.innerHTML+=`
 
-<div class="card low">
+<div class="low">
 
 🟡 LOW STOCK
 
@@ -2680,13 +2574,10 @@ box.innerHTML+=`
 
 ${item.name}
 
-<br>
-
 ${v.name}
 
 <br>
 
-Stock:
 ${v.stock}
 
 </div>
@@ -2718,7 +2609,7 @@ ${v.stock}
 
 
 // ===============================
-// DASHBOARD
+// STATS
 // ===============================
 
 
@@ -2748,7 +2639,8 @@ remaining+=v.stock;
 
 document.getElementById(
 "sales"
-).innerHTML=
+)
+.innerHTML=
 
 "$"+
 stats.sales.toFixed(2);
@@ -2757,7 +2649,8 @@ stats.sales.toFixed(2);
 
 document.getElementById(
 "sold"
-).innerHTML=
+)
+.innerHTML=
 
 stats.sold;
 
@@ -2765,7 +2658,8 @@ stats.sold;
 
 document.getElementById(
 "remaining"
-).innerHTML=
+)
+.innerHTML=
 
 remaining;
 
@@ -2773,7 +2667,8 @@ remaining;
 
 document.getElementById(
 "cashSales"
-).innerHTML=
+)
+.innerHTML=
 
 "$"+
 stats.cash.toFixed(2);
@@ -2782,7 +2677,8 @@ stats.cash.toFixed(2);
 
 document.getElementById(
 "cardSales"
-).innerHTML=
+)
+.innerHTML=
 
 "$"+
 stats.card.toFixed(2);
@@ -2791,7 +2687,8 @@ stats.card.toFixed(2);
 
 document.getElementById(
 "otherSales"
-).innerHTML=
+)
+.innerHTML=
 
 "$"+
 stats.other.toFixed(2);
@@ -2814,7 +2711,6 @@ function resetStats(){
 
 stats={
 
-
 sales:0,
 
 sold:0,
@@ -2824,7 +2720,6 @@ cash:0,
 card:0,
 
 other:0
-
 
 };
 
@@ -2848,7 +2743,7 @@ renderStats();
 
 
 // ===============================
-// START APP
+// START
 // ===============================
 
 
@@ -2858,12 +2753,5 @@ showPage(
 
 
 
-if(craftShowMode){
+renderInventory();
 
-
-document.body.classList.add(
-"craftMode"
-);
-
-
-}

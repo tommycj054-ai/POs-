@@ -35,33 +35,28 @@
 📦 Inventory
 </button>
 
-
 <button onclick="showPage('checkout')">
 🛒 Checkout
 </button>
-
 
 <button onclick="showPage('barcodes')">
 🏷️ Barcodes
 </button>
 
-
 <button onclick="showPage('alerts')">
 🚨 Alerts
 </button>
-
 
 <button onclick="showPage('dashboard')">
 📊 Stats
 </button>
 
-
 <button onclick="showPage('settings')">
 ⚙️ Settings
 </button>
 
-
 </nav>
+
 
 
 
@@ -80,6 +75,7 @@ onclick="toggleCraftMode()">
 
 
 
+
 <!-- INVENTORY -->
 
 <section id="inventory" class="page">
@@ -91,16 +87,21 @@ onclick="toggleCraftMode()">
 
 
 <input id="inventorySearch"
-placeholder="Search inventory..."
+
+placeholder="Search items"
+
 oninput="renderInventory()">
 
 
+
 <button class="bigButton"
+
 onclick="openItemEditor()">
 
-➕ Add Item
+➕ Add New Item
 
 </button>
+
 
 
 <div id="inventoryList"></div>
@@ -128,8 +129,8 @@ onclick="openItemEditor()">
 
 
 
-
 <button class="bigButton"
+
 onclick="startScanner()">
 
 📷 Scan Barcode
@@ -139,24 +140,22 @@ onclick="startScanner()">
 
 
 
+<div id="scannerBox"
 
-<div id="scannerBox" class="hidden">
+class="hidden">
 
 
 <h3>
-Point camera at barcode
+Scan Barcode
 </h3>
 
 
-
-<div id="scanner">
-
-</div>
-
+<div id="scanner"></div>
 
 
 
 <button class="bigButton danger"
+
 onclick="stopScanner()">
 
 Close Camera
@@ -164,10 +163,7 @@ Close Camera
 </button>
 
 
-
 </div>
-
-
 
 
 
@@ -175,16 +171,13 @@ Close Camera
 
 <input id="checkoutSearch"
 
-placeholder="Search products..."
+placeholder="Search products"
 
 oninput="renderCheckout()">
 
 
 
-
-
 <div id="productButtons"></div>
-
 
 
 
@@ -194,15 +187,11 @@ Cart
 </h2>
 
 
-
 <div id="cart"></div>
 
 
-
 <h2 id="cartTotal">
-
 Total: $0
-
 </h2>
 
 
@@ -217,12 +206,11 @@ Clear Cart
 
 
 
-
 <button class="bigButton"
 
 onclick="openPayment()">
 
-CHECKOUT
+Checkout
 
 </button>
 
@@ -238,10 +226,12 @@ CHECKOUT
 
 
 
-<!-- BARCODES -->
+<!-- BARCODE PAGE -->
 
 
-<section id="barcodes" class="page hidden">
+<section id="barcodes"
+
+class="page hidden">
 
 
 <h2>
@@ -252,11 +242,9 @@ CHECKOUT
 
 <input id="barcodeSearch"
 
-placeholder="Search barcodes..."
+placeholder="Search barcodes"
 
 oninput="renderBarcodes()">
-
-
 
 
 
@@ -270,7 +258,6 @@ onclick="selectAllBarcodes()">
 
 
 
-
 <button class="bigButton"
 
 onclick="clearBarcodeSelection()">
@@ -278,7 +265,6 @@ onclick="clearBarcodeSelection()">
 Clear Selection
 
 </button>
-
 
 
 
@@ -307,7 +293,6 @@ onclick="printAllBarcodes()">
 <div id="barcodeList"></div>
 
 
-
 </section>
 
 
@@ -321,7 +306,9 @@ onclick="printAllBarcodes()">
 <!-- ALERTS -->
 
 
-<section id="alerts" class="page hidden">
+<section id="alerts"
+
+class="page hidden">
 
 
 <h2>
@@ -345,7 +332,9 @@ onclick="printAllBarcodes()">
 <!-- DASHBOARD -->
 
 
-<section id="dashboard" class="page hidden">
+<section id="dashboard"
+
+class="page hidden">
 
 
 <h2>
@@ -353,79 +342,49 @@ onclick="printAllBarcodes()">
 </h2>
 
 
-
-
 <div class="stats">
 
 
-<h3>
-Total Sales
-</h3>
+<h3>Total Sales</h3>
 
-<p id="sales">
-$0
-</p>
+<p id="sales">$0</p>
 
 
 
-<h3>
-Items Sold
-</h3>
+<h3>Items Sold</h3>
 
-<p id="sold">
-0
-</p>
+<p id="sold">0</p>
 
 
 
-<h3>
-Items Remaining
-</h3>
+<h3>Items Remaining</h3>
 
-<p id="remaining">
-0
-</p>
+<p id="remaining">0</p>
 
 
 
-
-<h3>
-Low Stock
-</h3>
-
-<p id="lowStock">
-0
-</p>
-
-
-
-<h2>
-Payments
-</h2>
+<h3>Payments</h3>
 
 
 <p>
-💵 Cash:
+Cash:
 <span id="cashSales">$0</span>
 </p>
 
 
 <p>
-💳 Card:
+Card:
 <span id="cardSales">$0</span>
 </p>
 
 
 <p>
-📱 Other:
+Other:
 <span id="otherSales">$0</span>
 </p>
 
 
-
 </div>
-
-
 
 
 
@@ -436,7 +395,6 @@ onclick="resetStats()">
 Reset Event
 
 </button>
-
 
 
 
@@ -453,22 +411,14 @@ Reset Event
 <!-- SETTINGS -->
 
 
-<section id="settings" class="page hidden">
+<section id="settings"
+
+class="page hidden">
 
 
 <h2>
 ⚙️ Settings
 </h2>
-
-
-
-<div class="card">
-
-
-<h3>
-Backup / Restore
-</h3>
-
 
 
 <button class="bigButton"
@@ -492,7 +442,6 @@ Import Backup
 
 
 
-
 <input id="backupFile"
 
 type="file"
@@ -503,8 +452,6 @@ style="display:none"
 
 onchange="importBackup(event)">
 
-
-</div>
 
 
 </section>
@@ -529,7 +476,7 @@ class="popup hidden">
 
 
 <h2>
-Payment Method
+Payment
 </h2>
 
 
@@ -561,7 +508,6 @@ onclick="completePayment('other')">
 📱 Other
 
 </button>
-
 
 
 
@@ -604,10 +550,9 @@ Add Item
 
 
 
+<input id="itemImage"
 
-<input type="file"
-
-id="itemImage"
+type="file"
 
 accept="image/*"
 
@@ -617,7 +562,9 @@ capture="environment">
 
 <img id="previewImage"
 
-class="preview">
+class="preview"
+
+style="display:none;">
 
 
 
@@ -635,15 +582,23 @@ placeholder="Item name">
 
 type="number"
 
-value="3">
+value="3"
+
+placeholder="Low stock alert number">
 
 
 
 
 
 <h3>
-Variants
+Variants (Optional)
 </h3>
+
+
+
+<p>
+Leave empty for a normal item
+</p>
 
 
 
@@ -651,12 +606,11 @@ Variants
 
 
 
-
 <button class="smallButton"
 
 onclick="addVariantEditor()">
 
-Add Variant
+➕ Add Variant
 
 </button>
 
@@ -667,7 +621,7 @@ Add Variant
 
 onclick="saveItem()">
 
-Save
+Save Item
 
 </button>
 
