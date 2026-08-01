@@ -1,24 +1,27 @@
 // =====================================
-// CRAFT POS V5.1
+// CRAFT POS V5.2
 // APP.JS PART 1
-// DATA + INVENTORY SYSTEM
+// DATA + INVENTORY
 // =====================================
 
 
+
 // =====================
-// DATA
+// DATABASE
 // =====================
 
 
 let items =
-JSON.parse(localStorage.getItem("craftItems"))
-|| [];
+JSON.parse(
+localStorage.getItem("craftItems")
+) || [];
 
 
 
 let salesData =
-JSON.parse(localStorage.getItem("craftSales"))
-|| {
+JSON.parse(
+localStorage.getItem("craftSales")
+) || {
 
 sales:0,
 itemsSold:0,
@@ -30,13 +33,20 @@ other:0
 
 
 
-let cart = [];
+let cart=[];
 
-let editingItem = null;
 
-let selectedBarcodes = [];
+let editingItem=null;
 
-let imageData = "";
+
+let imageData="";
+
+
+let selectedBarcodes=[];
+
+
+
+
 
 
 
@@ -50,19 +60,28 @@ function saveData(){
 
 
 localStorage.setItem(
+
 "craftItems",
+
 JSON.stringify(items)
+
 );
 
 
 
 localStorage.setItem(
+
 "craftSales",
+
 JSON.stringify(salesData)
+
 );
 
 
 }
+
+
+
 
 
 
@@ -77,26 +96,33 @@ JSON.stringify(salesData)
 function showPage(page){
 
 
+
 document
 .querySelectorAll(".page")
-.forEach(p=>{
+.forEach(section=>{
 
-p.classList.add("hidden");
+
+section.classList.add("hidden");
+
 
 });
 
 
 
-let current =
+
+
+let open =
 document.getElementById(page);
 
 
 
-if(current){
+if(open){
 
-current.classList.remove("hidden");
+open.classList.remove("hidden");
+
 
 }
+
 
 
 
@@ -141,14 +167,14 @@ renderDashboard();
 
 
 // =====================
-// ID GENERATORS
+// CREATE IDS
 // =====================
 
 
 function generateSKU(){
 
 
-return "SKU" +
+return "SKU-" +
 
 Math.floor(
 
@@ -196,17 +222,19 @@ Math.random()*900000000000
 
 
 document.addEventListener(
+
 "change",
-function(e){
+
+function(event){
 
 
 
-if(e.target.id==="itemPicture"){
+if(event.target.id==="itemPicture"){
 
 
 
 let file =
-e.target.files[0];
+event.target.files[0];
 
 
 
@@ -224,21 +252,25 @@ new FileReader();
 reader.onload=function(){
 
 
+
 imageData =
 reader.result;
 
 
 
-let img =
+let preview =
 document.getElementById(
 "itemPreview"
 );
 
 
 
-img.src=imageData;
+preview.src=imageData;
 
-img.style.display="block";
+
+
+preview.style.display="block";
+
 
 
 };
@@ -252,7 +284,10 @@ reader.readAsDataURL(file);
 }
 
 
-});
+
+}
+
+);
 
 
 
@@ -263,7 +298,7 @@ reader.readAsDataURL(file);
 
 
 // =====================
-// OPEN EDITOR
+// OPEN ITEM EDITOR
 // =====================
 
 
@@ -274,6 +309,7 @@ function openItemEditor(id=null){
 editingItem=id;
 
 
+
 imageData="";
 
 
@@ -281,6 +317,8 @@ imageData="";
 document
 .getElementById("itemPopup")
 .classList.remove("hidden");
+
+
 
 
 
@@ -316,6 +354,8 @@ document
 
 
 
+
+
 if(id){
 
 
@@ -325,9 +365,6 @@ items.find(
 x=>x.id===id
 );
 
-
-
-editingItem=id;
 
 
 document
@@ -361,6 +398,7 @@ imageData=item.image;
 if(item.image){
 
 
+
 let img =
 document.getElementById(
 "itemPreview"
@@ -369,6 +407,7 @@ document.getElementById(
 
 
 img.src=item.image;
+
 
 
 img.style.display="block";
@@ -381,8 +420,8 @@ img.style.display="block";
 }
 
 
-
 }
+
 
 
 
@@ -398,7 +437,6 @@ function closeItemEditor(){
 document
 .getElementById("itemPopup")
 .classList.add("hidden");
-
 
 
 }
@@ -423,7 +461,8 @@ function saveItem(){
 let name =
 document
 .getElementById("itemName")
-.value.trim();
+.value
+.trim();
 
 
 
@@ -456,15 +495,21 @@ document
 
 
 
-if(!name){
+if(name===""){
+
 
 alert(
 "Enter item name"
 );
 
+
 return;
 
+
 }
+
+
+
 
 
 
@@ -503,28 +548,37 @@ else{
 items.push({
 
 
+
 id:Date.now(),
+
 
 
 sku:generateSKU(),
 
 
+
 barcode:generateBarcode(),
+
 
 
 name:name,
 
 
+
 price:price,
+
 
 
 stock:stock,
 
 
+
 lowStock:lowStock,
 
 
+
 image:imageData,
+
 
 
 sold:0
@@ -541,10 +595,14 @@ sold:0
 
 
 
+
+
 saveData();
 
 
+
 closeItemEditor();
+
 
 
 renderInventory();
@@ -570,20 +628,20 @@ function renderInventory(){
 
 
 
-let box =
+let list =
 document.getElementById(
 "inventoryList"
 );
 
 
 
-if(!box)
+if(!list)
 
 return;
 
 
 
-box.innerHTML="";
+list.innerHTML="";
 
 
 
@@ -591,8 +649,7 @@ let search =
 (
 document.getElementById(
 "inventorySearch"
-)?.value
-||""
+)?.value || ""
 
 )
 .toLowerCase();
@@ -602,6 +659,7 @@ document.getElementById(
 
 
 items
+
 .filter(item=>
 
 item.name
@@ -614,7 +672,7 @@ item.name
 
 
 
-box.innerHTML +=`
+list.innerHTML += `
 
 
 <div class="card">
@@ -625,9 +683,11 @@ ${item.image ?
 
 `<img src="${item.image}">`
 
-:""}
+:
 
+""
 
+}
 
 
 
@@ -657,6 +717,7 @@ ${item.stock}
 
 
 
+
 <button class="smallButton"
 
 onclick="changeStock(${item.id},1)">
@@ -664,7 +725,6 @@ onclick="changeStock(${item.id},1)">
 + Stock
 
 </button>
-
 
 
 
@@ -679,7 +739,6 @@ onclick="changeStock(${item.id},-1)">
 
 
 
-
 <button class="smallButton"
 
 onclick="openItemEditor(${item.id})">
@@ -687,6 +746,7 @@ onclick="openItemEditor(${item.id})">
 Edit
 
 </button>
+
 
 
 
@@ -703,12 +763,12 @@ Delete
 </div>
 
 
+
 `;
 
 
 
 });
-
 
 
 }
@@ -720,8 +780,9 @@ Delete
 
 
 
+
 // =====================
-// STOCK
+// STOCK CHANGE
 // =====================
 
 
@@ -769,11 +830,16 @@ renderInventory();
 
 
 
+// =====================
+// DELETE ITEM
+// =====================
+
+
 function deleteItem(id){
 
 
 
-if(confirm("Delete item?")){
+if(confirm("Delete this item?")){
 
 
 
@@ -787,6 +853,7 @@ x=>x.id!==id
 saveData();
 
 
+
 renderInventory();
 
 
@@ -794,12 +861,14 @@ renderInventory();
 }
 
 
+
 }
 // =====================================
-// CRAFT POS V5.1
+// CRAFT POS V5.2
 // APP.JS PART 2
-// CHECKOUT + PAYMENTS
+// CHECKOUT + PAYMENT
 // =====================================
+
 
 
 // =====================
@@ -810,20 +879,20 @@ renderInventory();
 function renderCheckout(){
 
 
-let box =
+let grid =
 document.getElementById(
 "productGrid"
 );
 
 
 
-if(!box)
+if(!grid)
 
 return;
 
 
 
-box.innerHTML="";
+grid.innerHTML="";
 
 
 
@@ -854,12 +923,13 @@ item.name
 
 
 
-box.innerHTML += `
+grid.innerHTML += `
 
 
 <button class="productButton"
 
 onclick="addToCart(${item.id})">
+
 
 
 ${item.image ?
@@ -880,10 +950,12 @@ ${item.image ?
 ${item.name}
 
 
+
 <br>
 
 
 $${item.price.toFixed(2)}
+
 
 
 <br>
@@ -891,6 +963,7 @@ $${item.price.toFixed(2)}
 
 Stock:
 ${item.stock}
+
 
 
 </button>
@@ -901,6 +974,7 @@ ${item.stock}
 
 
 });
+
 
 
 
@@ -941,20 +1015,21 @@ return;
 
 
 
+
+
 if(item.stock<=0){
 
 
-
 alert(
-"Out of stock"
+"Item is out of stock"
 );
-
 
 
 return;
 
 
 }
+
 
 
 
@@ -967,13 +1042,18 @@ x=>x.id===id
 
 
 
+
 if(existing){
 
 
 
-if(existing.qty < item.stock)
+if(existing.qty < item.stock){
+
 
 existing.qty++;
+
+
+}
 
 
 
@@ -984,6 +1064,7 @@ else{
 
 
 cart.push({
+
 
 
 id:item.id,
@@ -998,12 +1079,12 @@ price:item.price,
 qty:1
 
 
+
 });
 
 
 
 }
-
 
 
 
@@ -1022,7 +1103,7 @@ renderCart();
 
 
 // =====================
-// CART DISPLAY
+// SHOW CART
 // =====================
 
 
@@ -1052,13 +1133,14 @@ let total=0;
 
 
 
+
 cart.forEach((item,index)=>{
 
 
 
 let cost =
-item.qty *
-item.price;
+item.price *
+item.qty;
 
 
 
@@ -1074,6 +1156,7 @@ box.innerHTML += `
 <div class="cartItem">
 
 
+
 <h3>
 
 ${item.name}
@@ -1084,7 +1167,7 @@ ${item.name}
 
 <p>
 
-Quantity:
+Qty:
 ${item.qty}
 
 </p>
@@ -1108,6 +1191,7 @@ onclick="changeCartQuantity(${index},1)">
 +
 
 </button>
+
 
 
 
@@ -1147,7 +1231,6 @@ Remove
 
 
 
-
 document.getElementById(
 "cartTotal"
 )
@@ -1179,46 +1262,48 @@ function changeCartQuantity(index,amount){
 
 
 
-let item =
+let cartItem =
 cart[index];
 
 
 
 let product =
 items.find(
-x=>x.id===item.id
+x=>x.id===cartItem.id
 );
 
 
 
 
 
-item.qty += amount;
+cartItem.qty += amount;
 
 
 
 
-if(item.qty<=0){
+
+if(cartItem.qty<=0){
+
 
 
 cart.splice(index,1);
 
 
-}
-
-
-
-
-
-if(item.qty > product.stock){
-
-
-item.qty=product.stock;
-
 
 }
 
 
+
+if(cartItem.qty > product.stock){
+
+
+
+cartItem.qty =
+product.stock;
+
+
+
+}
 
 
 
@@ -1265,6 +1350,7 @@ function clearCart(){
 cart=[];
 
 
+
 renderCart();
 
 
@@ -1280,7 +1366,7 @@ renderCart();
 
 
 // =====================
-// PAYMENT
+// PAYMENT POPUP
 // =====================
 
 
@@ -1303,7 +1389,10 @@ return;
 
 
 
+
+
 document
+
 .getElementById(
 "paymentPopup"
 )
@@ -1322,6 +1411,37 @@ document
 
 
 
+
+
+function closePayment(){
+
+
+
+document
+
+.getElementById(
+"paymentPopup"
+)
+
+.classList.add(
+"hidden"
+);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================
+// COMPLETE PAYMENT
+// =====================
 
 
 function completePayment(type){
@@ -1388,6 +1508,8 @@ salesData.sales += total;
 
 
 
+
+
 if(type==="cash"){
 
 
@@ -1398,8 +1520,6 @@ salesData.cash += total;
 
 
 
-
-
 if(type==="card"){
 
 
@@ -1407,8 +1527,6 @@ salesData.card += total;
 
 
 }
-
-
 
 
 
@@ -1434,22 +1552,14 @@ cart=[];
 
 
 
-document
-.getElementById(
-"paymentPopup"
-)
-
-.classList.add(
-"hidden"
-);
-
+closePayment();
 
 
 
 renderInventory();
 
-renderCheckout();
 
+renderCheckout();
 
 
 renderDashboard();
@@ -1457,45 +1567,16 @@ renderDashboard();
 
 
 }
-
-
-
-
-
-
-
-
-// =====================
-// CLOSE PAYMENT
-// =====================
-
-
-function closePayment(){
-
-
-
-document
-.getElementById(
-"paymentPopup"
-)
-
-.classList.add(
-"hidden"
-);
-
-
-
-}
 // =====================================
-// CRAFT POS V5.1
+// CRAFT POS V5.2
 // APP.JS PART 3
-// BARCODES + ALERTS + SETTINGS
+// BARCODES + SCANNER + DASHBOARD
 // =====================================
 
 
 
 // =====================
-// BARCODE CENTER
+// BARCODE TAB
 // =====================
 
 
@@ -1519,10 +1600,6 @@ box.innerHTML="";
 
 
 
-selectedBarcodes=[];
-
-
-
 let search =
 (
 document.getElementById(
@@ -1537,7 +1614,8 @@ document.getElementById(
 
 
 items
-.filter(item=>
+
+.filter(item =>
 
 item.name
 .toLowerCase()
@@ -1553,7 +1631,6 @@ box.innerHTML += `
 
 
 <div class="barcodeCard">
-
 
 
 <label>
@@ -1586,11 +1663,12 @@ ${item.name}
 
 
 
+
 <canvas
 
-id="barcode-${item.id}"
+class="barcodeCanvas"
 
-class="barcodeCanvas">
+id="barcode-${item.id}">
 
 </canvas>
 
@@ -1599,14 +1677,16 @@ class="barcodeCanvas">
 </div>
 
 
+
 `;
 
 
 
 
 
-setTimeout(()=>{
 
+
+setTimeout(()=>{
 
 
 let canvas =
@@ -1635,7 +1715,6 @@ width:2,
 height:80,
 
 displayValue:true
-
 
 }
 
@@ -1691,7 +1770,9 @@ selectedBarcodes.push(id);
 }
 
 
+
 }
+
 
 
 
@@ -1709,7 +1790,9 @@ selectedBarcodes=[];
 
 
 document
-.querySelectorAll(".barcodeCheck")
+.querySelectorAll(
+".barcodeCheck"
+)
 
 .forEach(box=>{
 
@@ -1722,12 +1805,12 @@ Number(box.dataset.id)
 );
 
 
-
 });
 
 
 
 }
+
 
 
 
@@ -1745,7 +1828,9 @@ selectedBarcodes=[];
 
 
 document
-.querySelectorAll(".barcodeCheck")
+.querySelectorAll(
+".barcodeCheck"
+)
 
 .forEach(box=>{
 
@@ -1768,7 +1853,7 @@ box.checked=false;
 
 
 // =====================
-// PRINT BARCODES
+// PRINT BARCODE LABELS
 // =====================
 
 
@@ -1790,6 +1875,8 @@ printBarcodePage(list);
 
 
 }
+
+
 
 
 
@@ -1823,11 +1910,13 @@ document.getElementById(
 
 
 
+if(!area)
+
+return;
+
+
+
 area.innerHTML="";
-
-
-
-area.style.display="block";
 
 
 
@@ -1837,20 +1926,19 @@ list.forEach(item=>{
 
 
 
-let div =
+let label =
 document.createElement(
 "div"
 );
 
 
 
-div.className="printLabel";
+label.className=
+"printLabel";
 
 
 
-div.innerHTML=
-
-`
+label.innerHTML=`
 
 <h3>
 
@@ -1858,20 +1946,20 @@ ${item.name}
 
 </h3>
 
+
 <canvas></canvas>
+
 
 `;
 
 
 
-
-
-area.appendChild(div);
+area.appendChild(label);
 
 
 
 let canvas =
-div.querySelector(
+label.querySelector(
 "canvas"
 );
 
@@ -1893,7 +1981,6 @@ height:70,
 
 displayValue:true
 
-
 }
 
 );
@@ -1906,13 +1993,44 @@ displayValue:true
 
 
 
+// temporarily show ONLY for printing
+
+area.style.display="block";
+
+area.style.position="absolute";
+
+area.style.left="0";
+
+area.style.top="0";
+
+
+
+
+
 setTimeout(()=>{
 
 
 window.print();
 
 
+
+setTimeout(()=>{
+
+
+
+area.style.display="none";
+
+area.innerHTML="";
+
+area.style.left="-99999px";
+
+
+
 },1000);
+
+
+
+},500);
 
 
 
@@ -1927,7 +2045,7 @@ window.print();
 
 
 // =====================
-// BARCODE SCANNER
+// CAMERA SCANNER
 // =====================
 
 
@@ -1936,6 +2054,7 @@ function startScanner(){
 
 
 document
+
 .getElementById(
 "scannerBox"
 )
@@ -1955,13 +2074,16 @@ Quagga.init({
 inputStream:{
 
 
+
 name:"Live",
 
 
 type:"LiveStream",
 
 
+
 target:
+
 document.querySelector(
 "#scanner"
 ),
@@ -1984,13 +2106,16 @@ facingMode:"environment"
 decoder:{
 
 
+
 readers:[
+
 
 "code_128_reader",
 
 "ean_reader",
 
 "upc_reader"
+
 
 ]
 
@@ -1999,15 +2124,16 @@ readers:[
 
 
 
-},function(err){
+},function(error){
 
 
 
-if(err){
+if(error){
+
 
 
 alert(
-"Camera error"
+"Camera permission error"
 );
 
 
@@ -2029,13 +2155,13 @@ Quagga.start();
 
 
 
-
 Quagga.onDetected(function(result){
 
 
 
 let code =
 result.codeResult.code;
+
 
 
 
@@ -2070,7 +2196,6 @@ alert(
 
 
 
-
 Quagga.stop();
 
 
@@ -2080,7 +2205,6 @@ Quagga.stop();
 
 
 }
-
 
 
 
@@ -2106,6 +2230,7 @@ catch(e){}
 
 
 document
+
 .getElementById(
 "scannerBox"
 )
@@ -2176,6 +2301,7 @@ Out of Stock
 </div>
 
 
+
 `;
 
 
@@ -2194,12 +2320,15 @@ box.innerHTML += `
 
 🟡 ${item.name}
 
+
 <br>
+
 
 ${item.stock} left
 
 
 </div>
+
 
 
 `;
@@ -2233,20 +2362,21 @@ function renderDashboard(){
 
 
 
-let sales =
-document.getElementById(
+if(!document.getElementById(
 "totalSales"
-);
-
-
-
-if(!sales)
+))
 
 return;
 
 
 
-sales.innerHTML =
+
+
+document.getElementById(
+"totalSales"
+)
+
+.innerHTML =
 
 "$"+salesData.sales.toFixed(2);
 
@@ -2304,14 +2434,14 @@ document.getElementById(
 
 
 
-let total=0;
+let count=0;
 
 
 
 items.forEach(item=>{
 
 
-total += item.stock;
+count+=item.stock;
 
 
 });
@@ -2324,7 +2454,7 @@ document.getElementById(
 "inventoryCount"
 )
 
-.innerHTML = total;
+.innerHTML=count;
 
 
 
@@ -2339,7 +2469,7 @@ document.getElementById(
 
 
 // =====================
-// RESET EVENT SALES
+// RESET EVENT
 // =====================
 
 
@@ -2352,11 +2482,15 @@ salesData={
 
 sales:0,
 
+
 itemsSold:0,
+
 
 cash:0,
 
+
 card:0,
+
 
 other:0
 
@@ -2397,6 +2531,7 @@ let backup={
 
 items:items,
 
+
 sales:salesData
 
 
@@ -2406,7 +2541,7 @@ sales:salesData
 
 
 
-let blob =
+let file =
 new Blob(
 
 [
@@ -2435,7 +2570,7 @@ document.createElement(
 
 
 link.href =
-URL.createObjectURL(blob);
+URL.createObjectURL(file);
 
 
 
@@ -2449,7 +2584,6 @@ link.click();
 
 
 }
-
 
 
 
@@ -2502,8 +2636,6 @@ renderInventory();
 
 
 };
-
-
 
 
 
