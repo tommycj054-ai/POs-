@@ -1,6 +1,6 @@
 * {
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -16,8 +16,6 @@ body {
 
 
 
-
-/* HEADER */
 
 header {
 
@@ -41,7 +39,7 @@ header h1 {
 
     margin:0;
 
-    font-size:30px;
+    font-size:32px;
 
 }
 
@@ -50,7 +48,6 @@ header h1 {
 
 
 
-/* MAIN */
 
 main {
 
@@ -61,11 +58,13 @@ main {
 }
 
 
+
 .page {
 
     display:none;
 
 }
+
 
 
 .page.active {
@@ -88,7 +87,7 @@ main {
     display:grid;
 
     grid-template-columns:
-    repeat(auto-fit,minmax(170px,1fr));
+    repeat(auto-fit,minmax(160px,1fr));
 
     gap:15px;
 
@@ -96,7 +95,9 @@ main {
 
 
 
+
 .card {
+
 
     background:white;
 
@@ -108,15 +109,6 @@ main {
 
     text-align:center;
 
-}
-
-
-
-.card h3 {
-
-    color:#666;
-
-    margin:0;
 
 }
 
@@ -133,11 +125,13 @@ main {
 
 
 
+
+
+
 .dashboard-box {
 
-    background:white;
 
-    border:1px solid #ddd;
+    background:white;
 
     border-radius:20px;
 
@@ -145,8 +139,10 @@ main {
 
     margin-top:20px;
 
-}
+    border:1px solid #ddd;
 
+
+}
 
 
 
@@ -159,19 +155,23 @@ main {
 
 button {
 
+
     background:white;
+
+    color:#111;
 
     border:1px solid #111;
 
-    border-radius:14px;
+    border-radius:15px;
 
-    padding:14px 18px;
+    padding:15px 20px;
 
     margin:5px;
 
-    cursor:pointer;
-
     font-size:16px;
+
+    min-height:50px;
+
 
 }
 
@@ -179,9 +179,11 @@ button {
 
 button:hover {
 
+
     background:#111;
 
     color:white;
+
 
 }
 
@@ -203,36 +205,6 @@ button:hover {
 
 
 
-
-
-/* QUICK BUTTONS */
-
-
-.quick-buttons {
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(180px,1fr));
-
-    gap:10px;
-
-}
-
-
-.quick-buttons button {
-
-    height:65px;
-
-}
-
-
-
-
-
-
-
-
 /* INPUTS */
 
 
@@ -244,7 +216,7 @@ select {
 
     padding:15px;
 
-    border-radius:14px;
+    border-radius:15px;
 
     border:1px solid #ccc;
 
@@ -254,36 +226,6 @@ select {
 
     margin-bottom:12px;
 
-}
-
-
-
-
-
-
-
-
-/* CATEGORY BUTTONS */
-
-
-.categories {
-
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:8px;
-
-    margin-bottom:15px;
-
-}
-
-
-
-.categories button {
-
-    border-radius:25px;
 
 }
 
@@ -293,41 +235,21 @@ select {
 
 
 
-/* CATEGORY PAGE */
+/* QUICK BUTTONS */
 
 
-#categories {
+.quick-buttons {
 
-    background:white;
 
-    border-radius:20px;
+    display:grid;
 
-    padding:20px;
+    grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+
+    gap:10px;
+
 
 }
-
-
-
-
-.category-card {
-
-
-    background:#f5f5f5;
-
-    border-radius:15px;
-
-    padding:15px;
-
-    margin:10px 0;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-}
-
 
 
 
@@ -343,15 +265,12 @@ select {
 
     display:grid;
 
-    grid-template-columns:
-    2fr 1fr;
+    grid-template-columns:2fr 1fr;
 
     gap:20px;
 
 
 }
-
-
 
 
 
@@ -363,11 +282,11 @@ select {
     grid-template-columns:
     repeat(auto-fill,minmax(160px,1fr));
 
-
     gap:15px;
 
 
 }
+
 
 
 
@@ -377,19 +296,16 @@ select {
 
     background:white;
 
-    border:1px solid #ddd;
-
     border-radius:20px;
+
+    border:1px solid #ddd;
 
     padding:15px;
 
     text-align:center;
 
-    cursor:pointer;
-
 
 }
-
 
 
 
@@ -410,38 +326,21 @@ select {
 
 
 
-.product:hover {
-
-    border:2px solid #111;
-
-}
-
-
-
-
-
-
-
-/* CART */
-
 
 .cart {
 
 
     background:white;
 
-    border:1px solid #ddd;
-
     border-radius:20px;
+
+    border:1px solid #ddd;
 
     padding:20px;
 
-    position:sticky;
-
-    top:10px;
-
-
 }
+
+
 
 
 
@@ -452,16 +351,12 @@ select {
 
     justify-content:space-between;
 
-    align-items:center;
-
-    padding:12px 0;
-
     border-bottom:1px solid #eee;
+
+    padding:12px;
 
 
 }
-
-
 
 
 
@@ -477,17 +372,16 @@ select {
 
     background:white;
 
-    border:1px solid #ddd;
-
     border-radius:20px;
 
-    padding:18px;
+    border:1px solid #ddd;
 
-    margin:12px 0;
+    padding:20px;
+
+    margin:15px 0;
 
 
 }
-
 
 
 
@@ -512,19 +406,216 @@ select {
 
 
 
-/* TODO */
+/* SCANNER */
 
 
-.todo-item {
+#cameraScanner {
 
 
-    background:#f5f5f5;
+    height:350px;
 
-    border-radius:12px;
+    max-width:600px;
 
-    padding:12px;
+    background:#111;
 
-    margin:8px 0;
+    border-radius:20px;
+
+    margin:20px auto;
+
+    overflow:hidden;
+
+
+}
+
+
+
+#cameraScanner video {
+
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+
+}
+
+
+
+
+#scanResult {
+
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin-top:15px;
+
+    font-size:20px;
+
+
+}
+
+
+
+
+
+
+
+
+/* BARCODE PAGE */
+
+
+.barcode-controls {
+
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+
+
+#barcodeList {
+
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:15px;
+
+
+}
+
+
+
+
+
+.barcode-card {
+
+
+    background:white;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    padding:15px;
+
+    text-align:center;
+
+
+}
+
+
+
+.barcode-card svg {
+
+
+    width:200px;
+
+    max-width:100%;
+
+
+}
+
+
+
+
+
+
+
+
+/* PRINT LABELS */
+
+
+#printArea {
+
+
+    display:none;
+
+
+}
+
+
+
+
+.print-label {
+
+
+    background:white;
+
+    width:2in;
+
+    height:1in;
+
+    padding:5px;
+
+    text-align:center;
+
+    page-break-inside:avoid;
+
+
+}
+
+
+
+.print-label h3 {
+
+
+    font-size:12px;
+
+    margin:0;
+
+
+}
+
+
+
+.print-label svg {
+
+
+    width:90%;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* CATEGORY */
+
+
+.category-card {
+
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    margin:10px 0;
 
     display:flex;
 
@@ -539,34 +630,8 @@ select {
 
 
 
-/* SALES */
 
-
-.sales-item {
-
-
-    background:white;
-
-    border:1px solid #ddd;
-
-    border-radius:15px;
-
-    padding:15px;
-
-    margin:10px 0;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* NAVIGATION */
+/* NAV */
 
 
 nav {
@@ -586,7 +651,6 @@ nav {
 
     background:white;
 
-
     border-top:1px solid #ddd;
 
 
@@ -598,6 +662,7 @@ nav {
 
 
 }
+
 
 
 
@@ -620,8 +685,61 @@ nav button {
 
 
 
+/* PRINT SETTINGS */
 
-/* MOBILE */
+
+@media print {
+
+
+body * {
+
+    visibility:hidden;
+
+}
+
+
+
+#printArea,
+
+#printArea * {
+
+    visibility:visible;
+
+}
+
+
+
+#printArea {
+
+
+    display:grid;
+
+    grid-template-columns:repeat(3,2in);
+
+    gap:0.1in;
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* IPAD */
 
 
 @media(max-width:900px){
@@ -629,15 +747,9 @@ nav button {
 
 .checkout-layout {
 
+
     grid-template-columns:1fr;
 
-}
-
-
-
-.cart {
-
-    position:relative;
 
 }
 
@@ -645,7 +757,18 @@ nav button {
 
 .product-grid {
 
+
     grid-template-columns:repeat(2,1fr);
+
+
+}
+
+
+
+button {
+
+
+    font-size:18px;
 
 }
 
