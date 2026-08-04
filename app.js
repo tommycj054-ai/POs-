@@ -1379,7 +1379,6 @@ ${p.barcode}
 </button>
 
 
-
 <button onclick="addStock(${p.id})">
 
 +1
@@ -1387,11 +1386,16 @@ ${p.barcode}
 </button>
 
 
-
-
 <button onclick="removeStock(${p.id})">
 
 -1
+
+</button>
+
+
+<button onclick="deleteProduct(${p.id})">
+
+🗑 Delete
 
 </button>
 
@@ -1485,6 +1489,45 @@ displayInventory();
 
 updateDashboard();
 
+
+
+}
+// ================================
+// DELETE PRODUCT
+// ================================
+
+function deleteProduct(id){
+
+
+let product = products.find(
+p => p.id === id
+);
+
+
+
+if(!product)
+
+return;
+
+
+
+products = products.filter(
+p => p.id !== id
+);
+
+
+
+saveData();
+
+
+
+displayInventory();
+
+displayProducts();
+
+displayBarcodeList();
+
+updateDashboard();
 
 
 }
