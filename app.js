@@ -26,7 +26,9 @@ let scannerRunning = false;
 
 let selectedBarcodes = [];
 
+let lastScan = "";
 
+let lastScanTime = 0;
 
 
 
@@ -1613,35 +1615,41 @@ input.value="";
 function processBarcodeScan(code){
 
 
+let now = Date.now();
 
-let product =
 
-findProductByBarcode(code);
+// Prevent duplicate scans
+if(
+    code === lastScan &&
+    now - lastScanTime < 1500
+){
 
+    return;
+
+}
+
+
+lastScan = code;
+lastScanTime = now;
+
+
+
+let product = findProductByBarcode(code);
 
 
 
 let result =
-
-document.getElementById(
-"scanResult"
-);
-
-
-
+document.getElementById("scanResult");
 
 
 
 if(!product){
 
 
-
 if(result)
 
 result.innerHTML =
-
 "❌ Barcode not found";
-
 
 
 return;
@@ -1654,12 +1662,7 @@ return;
 
 
 let mode =
-
-document.getElementById(
-"scanMode"
-).value;
-
-
+document.getElementById("scanMode").value;
 
 
 
@@ -1667,24 +1670,21 @@ document.getElementById(
 
 // ADD TO CART
 
-
 if(mode==="checkout"){
-
 
 
 addToCart(product.id);
 
 
+if(result)
 
 result.innerHTML = `
 
-
-✅ Added To Cart
+✅ Added to Cart
 
 <br>
 
 ${product.name}
-
 
 `;
 
@@ -1699,41 +1699,31 @@ ${product.name}
 
 
 
-
-// ADD STOCK +1
-
+// ADD EXACTLY 1 STOCK
 
 if(mode==="add"){
 
 
-
-product.stock++;
-
+product.stock = Number(product.stock) + 1;
 
 
 saveData();
 
 
-
 displayInventory();
 
 
+if(result)
 
 result.innerHTML = `
-
 
 ➕
 
 ${product.name}
 
-
 <br>
 
-
-Stock:
-
-${product.stock}
-
+Stock: ${product.stock}
 
 `;
 
@@ -1749,58 +1739,53 @@ ${product.stock}
 
 
 
-// REMOVE STOCK -1
-
+// REMOVE EXACTLY 1 STOCK
 
 if(mode==="remove"){
 
 
 
-if(product.stock>0)
+if(product.stock > 0){
 
-product.stock--;
+
+product.stock = Number(product.stock) - 1;
+
+
+}
 
 
 
 saveData();
 
 
-
 displayInventory();
 
 
 
-result.innerHTML = `
+if(result)
 
+result.innerHTML = `
 
 ➖
 
 ${product.name}
 
-
 <br>
 
-
-Stock:
-
-${product.stock}
-
+Stock: ${product.stock}
 
 `;
 
 
 
 }
-
 
 
 
 updateDashboard();
 
 
-
 }
-
 
 
 
@@ -1927,27 +1912,20 @@ Quagga.start();
 
 
 
-
 Quagga.onDetected(function(data){
 
-
-
 let code =
-
 data.codeResult.code;
-
-
 
 
 processBarcodeScan(code);
 
 
-
-
+setTimeout(()=>{
 
 stopScanner();
 
-
+},500);
 
 
 });
