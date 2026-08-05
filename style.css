@@ -1,35 +1,51 @@
+
+/* =========================
+   RESET
+========================= */
+
 * {
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+
+box-sizing:border-box;
+
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+
 }
+
 
 
 body {
 
-    margin:0;
+margin:0;
 
-    background:#f5f5f5;
+background:#f5f5f5;
 
-    color:#111;
+color:#111;
 
 }
+
 
 
 
 
 header {
 
-    height:65px;
+height:70px;
 
-    background:white;
+background:#fff;
 
-    border-bottom:1px solid #ddd;
+border-bottom:1px solid #ddd;
 
-    display:flex;
+display:flex;
 
-    justify-content:center;
+align-items:center;
 
-    align-items:center;
+justify-content:center;
+
+position:sticky;
+
+top:0;
+
+z-index:10;
 
 }
 
@@ -37,9 +53,9 @@ header {
 
 header h1 {
 
-    margin:0;
+margin:0;
 
-    font-size:32px;
+font-size:32px;
 
 }
 
@@ -49,11 +65,16 @@ header h1 {
 
 
 
+/* =========================
+   PAGES
+========================= */
+
+
 main {
 
-    padding:20px;
+padding:20px;
 
-    padding-bottom:100px;
+padding-bottom:100px;
 
 }
 
@@ -61,7 +82,7 @@ main {
 
 .page {
 
-    display:none;
+display:none;
 
 }
 
@@ -69,7 +90,7 @@ main {
 
 .page.active {
 
-    display:block;
+display:block;
 
 }
 
@@ -79,99 +100,27 @@ main {
 
 
 
-/* DASHBOARD */
 
-
-.cards {
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(160px,1fr));
-
-    gap:15px;
-
-}
-
-
-
-
-.card {
-
-
-    background:white;
-
-    border:1px solid #ddd;
-
-    border-radius:20px;
-
-    padding:20px;
-
-    text-align:center;
-
-
-}
-
-
-
-.card p {
-
-    font-size:38px;
-
-    margin:10px;
-
-}
-
-
-
-
-
-
-
-.dashboard-box {
-
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:20px;
-
-    margin-top:20px;
-
-    border:1px solid #ddd;
-
-
-}
-
-
-
-
-
-
-
-/* BUTTONS */
+/* =========================
+   BUTTONS
+========================= */
 
 
 button {
 
+background:white;
 
-    background:white;
+border:1px solid #111;
 
-    color:#111;
+border-radius:14px;
 
-    border:1px solid #111;
+padding:14px 18px;
 
-    border-radius:15px;
+font-size:16px;
 
-    padding:15px 20px;
+cursor:pointer;
 
-    margin:5px;
-
-    font-size:16px;
-
-    min-height:50px;
-
+margin:5px;
 
 }
 
@@ -179,23 +128,9 @@ button {
 
 button:hover {
 
+background:#111;
 
-    background:#111;
-
-    color:white;
-
-
-}
-
-
-
-.black {
-
-    background:#111;
-
-    color:white;
-
-    width:100%;
+color:white;
 
 }
 
@@ -205,27 +140,27 @@ button:hover {
 
 
 
-/* INPUTS */
+/* =========================
+   INPUTS
+========================= */
 
 
 input,
 select {
 
+width:100%;
 
-    width:100%;
+padding:14px;
 
-    padding:15px;
+border-radius:14px;
 
-    border-radius:15px;
+border:1px solid #ccc;
 
-    border:1px solid #ccc;
+font-size:16px;
 
-    background:white;
+margin-bottom:12px;
 
-    font-size:17px;
-
-    margin-bottom:12px;
-
+background:white;
 
 }
 
@@ -235,19 +170,81 @@ select {
 
 
 
-/* QUICK BUTTONS */
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+
+.dashboard-cards {
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(160px,1fr));
+
+gap:15px;
+
+}
+
+
+
+
+.dash-card {
+
+background:white;
+
+border-radius:22px;
+
+padding:20px;
+
+text-align:center;
+
+border:1px solid #ddd;
+
+}
+
+
+
+.dash-card span {
+
+font-size:40px;
+
+font-weight:bold;
+
+}
+
+
+
+
+
+.dashboard-section {
+
+background:white;
+
+border-radius:22px;
+
+padding:20px;
+
+margin-top:20px;
+
+border:1px solid #ddd;
+
+}
+
+
+
 
 
 .quick-buttons {
 
+display:grid;
 
-    display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(160px,1fr));
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(180px,1fr));
-
-    gap:10px;
-
+gap:10px;
 
 }
 
@@ -257,18 +254,30 @@ select {
 
 
 
-/* CHECKOUT */
+
+
+/* =========================
+ CHECKOUT
+========================= */
+
+
+.checkout-top {
+
+display:flex;
+
+gap:10px;
+
+}
+
 
 
 .checkout-layout {
 
+display:grid;
 
-    display:grid;
+grid-template-columns:2fr 1fr;
 
-    grid-template-columns:2fr 1fr;
-
-    gap:20px;
-
+gap:20px;
 
 }
 
@@ -276,14 +285,53 @@ select {
 
 .product-grid {
 
+display:grid;
 
-    display:grid;
+grid-template-columns:
+repeat(auto-fill,minmax(160px,1fr));
 
-    grid-template-columns:
-    repeat(auto-fill,minmax(160px,1fr));
+gap:15px;
 
-    gap:15px;
+}
 
+
+
+
+.product-card {
+
+background:white;
+
+border-radius:20px;
+
+padding:15px;
+
+text-align:center;
+
+border:1px solid #ddd;
+
+}
+
+
+
+
+.product-card img {
+
+width:120px;
+
+height:120px;
+
+object-fit:cover;
+
+border-radius:15px;
+
+}
+
+
+
+
+.product-card h3 {
+
+margin:10px 0;
 
 }
 
@@ -291,52 +339,18 @@ select {
 
 
 
-.product {
 
+.cart-box {
 
-    background:white;
+background:white;
 
-    border-radius:20px;
+border-radius:20px;
 
-    border:1px solid #ddd;
+padding:20px;
 
-    padding:15px;
+border:1px solid #ddd;
 
-    text-align:center;
-
-
-}
-
-
-
-.product img {
-
-
-    width:120px;
-
-    height:120px;
-
-    object-fit:cover;
-
-    border-radius:15px;
-
-
-}
-
-
-
-
-
-.cart {
-
-
-    background:white;
-
-    border-radius:20px;
-
-    border:1px solid #ddd;
-
-    padding:20px;
+height:max-content;
 
 }
 
@@ -346,56 +360,13 @@ select {
 
 .cart-item {
 
+display:flex;
 
-    display:flex;
+justify-content:space-between;
 
-    justify-content:space-between;
+padding:12px;
 
-    border-bottom:1px solid #eee;
-
-    padding:12px;
-
-
-}
-
-
-
-
-
-
-
-/* INVENTORY */
-
-
-.inventory-item {
-
-
-    background:white;
-
-    border-radius:20px;
-
-    border:1px solid #ddd;
-
-    padding:20px;
-
-    margin:15px 0;
-
-
-}
-
-
-
-.inventory-item img {
-
-
-    width:100px;
-
-    height:100px;
-
-    object-fit:cover;
-
-    border-radius:15px;
-
+border-bottom:1px solid #eee;
 
 }
 
@@ -406,57 +377,38 @@ select {
 
 
 
-/* SCANNER */
+/* =========================
+ PRODUCT LIST
+========================= */
 
 
-#cameraScanner {
+.product-row,
+.inventory-row {
 
+background:white;
 
-    height:350px;
+border-radius:20px;
 
-    max-width:600px;
+padding:20px;
 
-    background:#111;
+margin:12px 0;
 
-    border-radius:20px;
-
-    margin:20px auto;
-
-    overflow:hidden;
-
-
-}
-
-
-
-#cameraScanner video {
-
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
+border:1px solid #ddd;
 
 }
 
 
 
+.product-row img,
+.inventory-row img {
 
-#scanResult {
+width:90px;
 
+height:90px;
 
-    background:white;
+object-fit:cover;
 
-    border-radius:20px;
-
-    padding:20px;
-
-    margin-top:15px;
-
-    font-size:20px;
-
+border-radius:15px;
 
 }
 
@@ -467,58 +419,39 @@ select {
 
 
 
-/* BARCODE PAGE */
+
+/* =========================
+ BARCODE CENTER
+========================= */
 
 
-.barcode-controls {
+.barcode-toolbar {
 
+background:white;
 
-    background:white;
+border-radius:20px;
 
-    border-radius:20px;
+padding:20px;
 
-    padding:20px;
-
-    margin-bottom:20px;
-
-
-}
-
-
-
-
-
-
-#barcodeList {
-
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
-
-    gap:15px;
-
+margin-bottom:20px;
 
 }
-
-
 
 
 
 .barcode-card {
 
+background:white;
 
-    background:white;
+border-radius:20px;
 
-    border-radius:15px;
+border:1px solid #ddd;
 
-    border:1px solid #ddd;
+padding:15px;
 
-    padding:15px;
+margin:15px 0;
 
-    text-align:center;
-
+text-align:center;
 
 }
 
@@ -526,11 +459,25 @@ select {
 
 .barcode-card svg {
 
+width:220px;
 
-    width:200px;
+max-width:100%;
 
-    max-width:100%;
+}
 
+
+
+
+
+.copy-box {
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+justify-content:center;
 
 }
 
@@ -541,14 +488,14 @@ select {
 
 
 
-/* PRINT LABELS */
+/* =========================
+ PRINT LABELS
+========================= */
 
 
 #printArea {
 
-
-    display:none;
-
+display:none;
 
 }
 
@@ -557,19 +504,13 @@ select {
 
 .print-label {
 
+background:white;
 
-    background:white;
+text-align:center;
 
-    width:2in;
+padding:8px;
 
-    height:1in;
-
-    padding:5px;
-
-    text-align:center;
-
-    page-break-inside:avoid;
-
+page-break-inside:avoid;
 
 }
 
@@ -577,21 +518,19 @@ select {
 
 .print-label h3 {
 
+font-size:14px;
 
-    font-size:12px;
-
-    margin:0;
-
+margin:2px;
 
 }
 
 
 
-.print-label svg {
+.print-label .price {
 
+font-size:16px;
 
-    width:90%;
-
+font-weight:bold;
 
 }
 
@@ -602,25 +541,78 @@ select {
 
 
 
+/* =========================
+ SCANNER
+========================= */
 
-/* CATEGORY */
+
+#cameraBox {
+
+height:350px;
+
+background:#111;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin:20px 0;
+
+}
+
+
+
+
+#cameraBox video {
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+}
+
+
+
+
+#scannerMessage {
+
+background:white;
+
+border-radius:20px;
+
+padding:20px;
+
+font-size:18px;
+
+}
+
+
+
+
+
+
+
+
+/* =========================
+ CATEGORY
+========================= */
 
 
 .category-card {
 
+background:white;
 
-    background:white;
+border-radius:15px;
 
-    border-radius:15px;
+padding:15px;
 
-    padding:15px;
+margin:10px 0;
 
-    margin:10px 0;
+display:flex;
 
-    display:flex;
-
-    justify-content:space-between;
-
+justify-content:space-between;
 
 }
 
@@ -631,50 +623,72 @@ select {
 
 
 
-/* NAV */
+
+/* =========================
+ SALES
+========================= */
+
+
+.sale-card {
+
+background:white;
+
+border-radius:20px;
+
+padding:20px;
+
+margin:10px 0;
+
+}
+
+
+
+
+
+
+
+
+
+/* =========================
+ NAVIGATION
+========================= */
 
 
 nav {
 
+position:fixed;
 
-    position:fixed;
+bottom:0;
 
-    bottom:0;
+left:0;
 
-    left:0;
+right:0;
 
-    right:0;
+height:75px;
 
+background:white;
 
-    height:75px;
+border-top:1px solid #ddd;
 
+display:flex;
 
-    background:white;
+justify-content:space-around;
 
-    border-top:1px solid #ddd;
+align-items:center;
 
-
-    display:flex;
-
-    justify-content:space-around;
-
-    align-items:center;
-
+z-index:20;
 
 }
-
 
 
 
 nav button {
 
+border:none;
 
-    border:none;
+font-size:25px;
 
-    background:white;
-
-    font-size:24px;
-
+background:white;
 
 }
 
@@ -685,7 +699,10 @@ nav button {
 
 
 
-/* PRINT SETTINGS */
+
+/* =========================
+ PRINT SETTINGS
+========================= */
 
 
 @media print {
@@ -693,17 +710,16 @@ nav button {
 
 body * {
 
-    visibility:hidden;
+visibility:hidden;
 
 }
 
 
 
 #printArea,
-
 #printArea * {
 
-    visibility:visible;
+visibility:visible;
 
 }
 
@@ -711,19 +727,17 @@ body * {
 
 #printArea {
 
+display:grid;
 
-    display:grid;
+grid-template-columns:repeat(3,2in);
 
-    grid-template-columns:repeat(3,2in);
+gap:.1in;
 
-    gap:0.1in;
+position:absolute;
 
-    position:absolute;
+top:0;
 
-    left:0;
-
-    top:0;
-
+left:0;
 
 }
 
@@ -739,17 +753,26 @@ body * {
 
 
 
-/* IPAD */
+/* =========================
+ IPAD / MOBILE
+========================= */
 
 
 @media(max-width:900px){
 
 
+
 .checkout-layout {
 
+grid-template-columns:1fr;
 
-    grid-template-columns:1fr;
+}
 
+
+
+.checkout-top {
+
+display:block;
 
 }
 
@@ -757,9 +780,7 @@ body * {
 
 .product-grid {
 
-
-    grid-template-columns:repeat(2,1fr);
-
+grid-template-columns:repeat(2,1fr);
 
 }
 
@@ -767,10 +788,12 @@ body * {
 
 button {
 
+font-size:18px;
 
-    font-size:18px;
+padding:16px;
 
 }
+
 
 
 }
