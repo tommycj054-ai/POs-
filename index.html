@@ -1,32 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
-<meta charset="UTF-8">
+<title>POS V11</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<title>POS V12</title>
 
 
 <link rel="stylesheet" href="style.css">
 
 
-<!-- Barcode Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></script>
 
 
 </head>
 
 
-
 <body>
-
 
 
 <header>
@@ -37,21 +30,13 @@
 
 
 
-
-
-
-
 <main>
 
 
 
 
 
-
-<!-- =====================
- DASHBOARD
-===================== -->
-
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="page active">
 
@@ -60,36 +45,29 @@
 
 
 
+<div class="cards">
 
-<div class="dashboard-cards">
 
-
-<div class="dash-card">
+<div class="card">
 
 <h3>Products</h3>
 
-<span id="totalProducts">
-
+<p id="productCount">
 0
-
-</span>
-
+</p>
 
 </div>
 
 
 
 
-<div class="dash-card">
+<div class="card">
 
-<h3>Inventory</h3>
+<h3>Stock</h3>
 
-<span id="totalInventory">
-
+<p id="inventoryCount">
 0
-
-</span>
-
+</p>
 
 </div>
 
@@ -97,16 +75,13 @@
 
 
 
-<div class="dash-card">
+<div class="card">
 
 <h3>Low Stock</h3>
 
-<span id="lowStockCount">
-
+<p id="lowStock">
 0
-
-</span>
-
+</p>
 
 </div>
 
@@ -114,36 +89,16 @@
 
 
 
-<div class="dash-card">
+<div class="card">
 
-<h3>Sales</h3>
+<h3>Sold</h3>
 
-<span id="salesCount">
-
+<p id="itemsSold">
 0
-
-</span>
-
+</p>
 
 </div>
 
-
-</div>
-
-
-
-
-
-
-
-
-<div class="dashboard-section">
-
-
-<h2>⭐ Best Selling Items</h2>
-
-
-<div id="bestSellingList"></div>
 
 
 </div>
@@ -153,10 +108,55 @@
 
 
 
-<div class="dashboard-section">
+<div class="quick-buttons">
 
 
-<h2>⚠️ Low Stock List</h2>
+<button onclick="showPage('addProduct')">
+
+➕ Add Product
+
+</button>
+
+
+
+<button onclick="showPage('checkout')">
+
+🛒 Sale
+
+</button>
+
+
+
+<button onclick="showPage('inventory')">
+
+📦 Inventory
+
+</button>
+
+
+
+
+<button onclick="showPage('scanner')">
+
+📷 Scan
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="dashboard-box">
+
+
+<h2>⚠️ Low Stock</h2>
 
 
 <div id="lowStockList"></div>
@@ -170,29 +170,13 @@
 
 
 
-
-<div class="dashboard-section">
-
-
-<h2>✅ To-Do List</h2>
+<div class="dashboard-box">
 
 
-<input 
-id="todoInput"
-placeholder="Add task"
->
+<h2>⭐ Best Sellers</h2>
 
 
-<button onclick="addTodo()">
-
-Add
-
-</button>
-
-
-
-<div id="todoList"></div>
-
+<div id="bestSellers"></div>
 
 
 </div>
@@ -204,39 +188,17 @@ Add
 
 
 
-<div class="quick-buttons">
+<div class="dashboard-box">
 
 
-<button onclick="openPage('checkout')">
-
-🛒 Sale
-
-</button>
+<h2>📦 Category Stock</h2>
 
 
-<button onclick="openPage('products')">
-
-➕ Product
-
-</button>
-
-
-<button onclick="openPage('inventory')">
-
-📦 Inventory
-
-</button>
-
-
-<button onclick="openPage('barcode')">
-
-🏷 Barcode
-
-</button>
-
+<div id="categoryStock"></div>
 
 
 </div>
+
 
 
 
@@ -257,10 +219,7 @@ Add
 
 
 
-
-<!-- =====================
- CHECKOUT
-===================== -->
+<!-- CHECKOUT -->
 
 
 <section id="checkout" class="page">
@@ -270,36 +229,20 @@ Add
 
 
 
+<div id="categoryButtons"></div>
 
-<div class="checkout-top">
+
 
 
 <input
 
-id="productSearch"
+id="search"
 
 placeholder="Search products"
 
-oninput="searchCheckout()"
+oninput="searchProducts()"
 
 >
-
-
-<select id="checkoutCategory">
-
-<option>
-
-All
-
-</option>
-
-</select>
-
-
-
-</div>
-
-
 
 
 
@@ -310,13 +253,7 @@ All
 
 
 
-<div>
-
-
-<div id="checkoutProducts" class="product-grid"></div>
-
-
-</div>
+<div id="products" class="product-grid"></div>
 
 
 
@@ -324,33 +261,26 @@ All
 
 
 
-<div class="cart-box">
+<div class="cart">
 
 
 <h2>Cart</h2>
-
 
 
 <div id="cartItems"></div>
 
 
 
-
-
 <h2>
 
-Total $
+$
 
-<span id="cartTotal">
-
-0.00
-
+<span id="total">
+0
 </span>
 
 
 </h2>
-
-
 
 
 
@@ -363,7 +293,8 @@ Clear
 
 
 
-<button onclick="checkoutPayment('Cash')">
+
+<button class="black" onclick="pay('Cash')">
 
 💵 Cash
 
@@ -372,7 +303,8 @@ Clear
 
 
 
-<button onclick="checkoutPayment('Card')">
+
+<button class="black" onclick="pay('Card')">
 
 💳 Card
 
@@ -380,10 +312,7 @@ Clear
 
 
 
-
 </div>
-
-
 
 
 
@@ -406,105 +335,78 @@ Clear
 
 
 
+<!-- ADD PRODUCT -->
 
 
-<!-- =====================
- PRODUCTS
-===================== -->
+<section id="addProduct" class="page">
 
 
-<section id="products" class="page">
-
-
-<h2>Products</h2>
-
-
-
-
-<button onclick="openAddProduct()">
-
-➕ Add Product
-
-</button>
-
-
-
-
-<div id="productList"></div>
+<h2>Add Product</h2>
 
 
 
 
 
-</section>
+<input
 
+id="productName"
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- =====================
- ADD / EDIT PRODUCT
-===================== -->
-
-
-<section id="productEditor" class="page">
-
-
-<h2 id="editorTitle">
-
-Add Product
-
-</h2>
-
-
-
-
-<input id="productName"
 placeholder="Product Name"
+
 >
 
 
 
 
-<input id="productPrice"
+
+<input
+
+id="productPrice"
+
 type="number"
+
 placeholder="Price"
+
 >
 
 
 
 
-<input id="productStock"
+
+<input
+
+id="productStock"
+
 type="number"
+
 placeholder="Stock"
+
 >
 
 
 
 
-<select id="productCategory"></select>
+
+<select id="productCategory">
+
+</select>
 
 
 
 
 
-<input id="productBarcode"
+<input
+
+id="productBarcode"
+
 placeholder="Barcode"
+
 >
 
 
 
 
-<button onclick="createBarcode()">
+<button onclick="generateProductBarcode()">
 
 Generate Barcode
 
@@ -515,10 +417,14 @@ Generate Barcode
 
 
 
-<input 
+<input
+
 id="productImage"
+
 type="file"
+
 accept="image/*"
+
 >
 
 
@@ -533,6 +439,54 @@ Save Product
 
 
 
+</section>
+
+
+
+
+
+
+
+
+
+<!-- EDIT PRODUCT -->
+
+
+<section id="editProduct" class="page">
+
+
+<h2>Edit Product</h2>
+
+
+
+
+
+<input id="editName">
+
+
+
+<input id="editPrice" type="number">
+
+
+
+<input id="editStock" type="number">
+
+
+
+<select id="editCategory">
+
+</select>
+
+
+
+
+
+<button onclick="updateProduct()">
+
+Save Changes
+
+</button>
+
 
 
 
@@ -546,13 +500,7 @@ Save Product
 
 
 
-
-
-
-
-<!-- =====================
- INVENTORY
-===================== -->
+<!-- INVENTORY -->
 
 
 <section id="inventory" class="page">
@@ -572,48 +520,43 @@ Save Product
 
 
 
+<!-- BARCODE SCANNER -->
+
+
+<section id="scanner" class="page">
+
+
+<h2>📷 Barcode Scanner</h2>
 
 
 
 
-<!-- =====================
- BARCODE CENTER
-===================== -->
+<select id="scanMode">
 
 
-<section id="barcode" class="page">
+<option value="checkout">
 
-
-<h2>🏷 Barcode Center</h2>
-
-
-
-
-
-<div class="barcode-toolbar">
-
-
-
-<input
-
-id="barcodeSearch"
-
-placeholder="Search products"
-
-oninput="searchBarcodes()"
-
->
-
-
-
-
-<select id="barcodeCategory">
-
-<option>
-
-All
+Add To Cart
 
 </option>
+
+
+
+<option value="add">
+
+Add +1 Stock
+
+</option>
+
+
+
+<option value="remove">
+
+Remove -1 Stock
+
+</option>
+
+
 
 </select>
 
@@ -621,10 +564,102 @@ All
 
 
 
+
+<div id="cameraScanner">
+
+</div>
+
+
+
+
+<button onclick="startScanner()">
+
+Start Camera
+
+</button>
+
+
+
+
+<button onclick="stopScanner()">
+
+Stop Camera
+
+</button>
+
+
+
+
+
+<h3>
+
+Bluetooth Scanner
+
+</h3>
+
+
+
+
+<input
+
+id="barcodeInput"
+
+placeholder="Scan barcode here"
+
+onchange="barcodeEntered()"
+
+>
+
+
+
+
+<div id="scanResult"></div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- BARCODE PRINTING -->
+
+
+<section id="barcodes" class="page">
+
+
+<h2>🖨 Barcode Labels</h2>
+
+
+
+
+
+<div class="barcode-controls">
+
+
+
+<label>
+
+Label Size
+
+</label>
+
+
+
 <select id="labelSize">
 
 
-<option value="2x1">
+<option value="small">
 
 2 x 1 inch
 
@@ -632,7 +667,7 @@ All
 
 
 
-<option value="2.625x1">
+<option value="medium">
 
 2.625 x 1 inch
 
@@ -640,7 +675,7 @@ All
 
 
 
-<option value="3.33x2">
+<option value="large">
 
 3.33 x 2 inch
 
@@ -663,8 +698,7 @@ Full Page
 
 
 
-
-<button onclick="selectAllLabels()">
+<button onclick="selectAllBarcodes()">
 
 ☑ Select All
 
@@ -673,7 +707,7 @@ Full Page
 
 
 
-<button onclick="clearLabels()">
+<button onclick="clearBarcodeSelection()">
 
 Clear
 
@@ -684,24 +718,7 @@ Clear
 
 
 
-<input
-
-id="selectedCopies"
-
-type="number"
-
-value="1"
-
-min="1"
-
-placeholder="Copies"
-
->
-
-
-
-
-<button onclick="printSelectedLabels()">
+<button onclick="printSelectedBarcodes()">
 
 🖨 Print Selected
 
@@ -712,7 +729,7 @@ placeholder="Copies"
 
 
 
-<button onclick="printAllLabels()">
+<button onclick="printAllBarcodes()">
 
 🖨 Print All
 
@@ -729,7 +746,9 @@ placeholder="Copies"
 
 
 
-<div id="barcodeProducts"></div>
+<div id="barcodeList">
+
+</div>
 
 
 
@@ -737,8 +756,9 @@ placeholder="Copies"
 
 
 
+<div id="printArea">
 
-<div id="printArea"></div>
+</div>
 
 
 
@@ -756,130 +776,7 @@ placeholder="Copies"
 
 
 
-
-
-
-<!-- =====================
- SCANNER
-===================== -->
-
-
-<section id="scanner" class="page">
-
-
-<h2>📷 Scanner</h2>
-
-
-
-
-
-<select id="scanAction">
-
-
-<option value="cart">
-
-Add To Cart
-
-</option>
-
-
-
-<option value="add">
-
-Add Stock +1
-
-</option>
-
-
-
-<option value="remove">
-
-Remove Stock -1
-
-</option>
-
-
-
-</select>
-
-
-
-
-
-
-<div id="cameraBox"></div>
-
-
-
-
-
-<button onclick="startCameraScanner()">
-
-Start Camera
-
-</button>
-
-
-
-
-<button onclick="stopCameraScanner()">
-
-Stop Camera
-
-</button>
-
-
-
-
-
-
-
-<h3>
-
-Bluetooth / USB Scanner
-
-</h3>
-
-
-
-<input
-
-id="scannerInput"
-
-placeholder="Scan barcode here"
-
-onchange="scannerInputScan()"
-
->
-
-
-
-
-
-
-<div id="scannerMessage"></div>
-
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- =====================
- CATEGORIES
-===================== -->
+<!-- CATEGORIES -->
 
 
 <section id="categories" class="page">
@@ -891,12 +788,11 @@ onchange="scannerInputScan()"
 
 
 
-
 <input
 
-id="newCategory"
+id="categoryName"
 
-placeholder="Category Name"
+placeholder="New Category"
 
 >
 
@@ -915,7 +811,11 @@ Add Category
 
 
 
-<div id="categoryList"></div>
+<div id="categoryList">
+
+</div>
+
+
 
 
 
@@ -933,9 +833,7 @@ Add Category
 
 
 
-<!-- =====================
- SALES
-===================== -->
+<!-- SALES -->
 
 
 <section id="sales" class="page">
@@ -945,8 +843,9 @@ Add Category
 
 
 
+<div id="salesList">
 
-<div id="salesList"></div>
+</div>
 
 
 
@@ -969,11 +868,6 @@ Clear Sales
 
 
 
-
-
-
-
-
 </main>
 
 
@@ -987,15 +881,15 @@ Clear Sales
 
 
 
-<!-- =====================
- NAVIGATION
-===================== -->
+
+<!-- NAVIGATION -->
 
 
 <nav>
 
 
-<button onclick="openPage('dashboard')">
+
+<button onclick="showPage('dashboard')">
 
 ⌂
 
@@ -1004,7 +898,7 @@ Clear Sales
 
 
 
-<button onclick="openPage('checkout')">
+<button onclick="showPage('checkout')">
 
 🛒
 
@@ -1013,17 +907,8 @@ Clear Sales
 
 
 
-<button onclick="openPage('products')">
 
-📦
-
-</button>
-
-
-
-
-
-<button onclick="openPage('scanner')">
+<button onclick="showPage('scanner')">
 
 📷
 
@@ -1033,9 +918,9 @@ Clear Sales
 
 
 
-<button onclick="openPage('barcode')">
+<button onclick="showPage('inventory')">
 
-🏷
+📦
 
 </button>
 
@@ -1043,12 +928,31 @@ Clear Sales
 
 
 
-<button onclick="openPage('categories')">
+<button onclick="showPage('barcodes')">
+
+🖨
+
+</button>
+
+
+
+
+
+<button onclick="showPage('categories')">
 
 ⚙️
 
 </button>
 
+
+
+
+
+<button onclick="showPage('sales')">
+
+🧾
+
+</button>
 
 
 
@@ -1063,7 +967,9 @@ Clear Sales
 
 
 
+
 <script src="app.js"></script>
+
 
 
 </body>
